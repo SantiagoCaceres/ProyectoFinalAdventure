@@ -1,6 +1,11 @@
 
 #include "Arma.h"
 
+int Arma::getAlcance() const
+{
+    return alcance;
+}
+
 Arma::Arma(string x, int a, int b,int c ){
     nombre=x;
     dano=a;

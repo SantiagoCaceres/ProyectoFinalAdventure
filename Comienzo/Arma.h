@@ -14,6 +14,7 @@ private:
 public:
     Arma(string,int,int,int);
     void drop();
+    int getAlcance() const;
 };
 
 #endif /* ARMA_H */
