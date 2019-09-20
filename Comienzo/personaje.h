@@ -22,7 +22,7 @@ protected:
 public:
     personaje(int a,int b,int c,int d,int e,Arma &x,char z);
     void desplazamiento(char tecla);
-    void attack(int a);
+    void attack(int a, char b);
     int estado();
     void respawn();
     void progress();//falta implementar este metodo

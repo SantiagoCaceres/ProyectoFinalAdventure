@@ -58,7 +58,11 @@ personaje::personaje(int a,int b,int c,int d,int e,Arma &x,char z){
 }
 
 int personaje::estado(){
+    gotoxy(30,0);
+    cout<<"Vida: ";
+    for(int i=0;i<vida/10;i++){cout<<'#';}
     if(vida<=0){
+        gotoxy(10,0);
         cout<<"Acabas de morir"<<endl;//desplegar mensaje si es el personaje del usuario
         system("pause");
         system("CLS");
@@ -85,6 +89,8 @@ void personaje::respawn(){
 }
 
 void personaje::desplazamiento(char tecla){
+    gotoxy(10,0);
+    for(int i=0;i<vida/10;i++){cout<<' ';}
     for(int i=0;i<velocidad;i++){
     gotoxy(x,y);
     cout<<" ";
@@ -103,12 +109,13 @@ void personaje::desplazamiento(char tecla){
         if(y-1>=0){
         y=y-1;}
     }
-    if(tecla=='f'){attack(1); vida=vida-20;}
+    if(tecla=='f'){attack(1,'d');
+    }
     gotoxy(x,y);
     cout<<cuerpo;}
 }
 
-void personaje::attack(int a){
+void personaje::attack(int a,char b){
     gotoxy(x,y);
     if(a==1){
             cout<<"*";
@@ -116,7 +123,7 @@ void personaje::attack(int a){
    else{
         cout<<"+";
    }
-
+   if(b=='d' or b=='D'){
     for(int i=1;i<tipo1->getAlcance();i++){
 
         cout<<"-";}
@@ -125,6 +132,17 @@ void personaje::attack(int a){
     Sleep(100);
     gotoxy(x+1,y);
     for(int i=0;i<tipo1->getAlcance();i++){
-        cout<<" ";}
+        cout<<" ";}}
+   else if(x-tipo1->getAlcance()>=0){
+       gotoxy(x-tipo1->getAlcance(),y);
+       cout<<"<";
+       for(int i=1;i<tipo1->getAlcance();i++){
+
+           cout<<"-";}
+       Sleep(100);
+       gotoxy(x-tipo1->getAlcance(),y);
+       for(int i=0;i<tipo1->getAlcance();i++){
+           cout<<" ";}
+   }
     //condicional para ver si hay enemigos en esa pocicion
 }

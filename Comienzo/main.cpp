@@ -1,6 +1,5 @@
 #include "enemigo.h"
 #include "mapa.h"
-//Especial consola
 int main() {
     Arma uno("Excalibur",10,3,100);
     Arma uo("Martillo",2,4,2);

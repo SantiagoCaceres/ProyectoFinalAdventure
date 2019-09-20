@@ -26,7 +26,13 @@ void Enemigo::generar_posicion(){
 
 void Enemigo::user_attack(){
     if(uX>getX() and uY==getY() and uX<=getX()+tipo1->getAlcance() ){
-        attack(0);
+        attack(0,'d');
+        prin->setVida(prin->getVida()-20);
+        desplazamiento('/');
+        prin->desplazamiento('/');
+    }
+    else if(uX<getX() and uY==getY() and uX>=getX()-tipo1->getAlcance() ){
+        attack(0,'s');
         prin->setVida(prin->getVida()-20);
         desplazamiento('/');
         prin->desplazamiento('/');
