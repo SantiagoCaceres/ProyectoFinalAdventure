@@ -93,12 +93,14 @@ void personaje::desplazamiento(char tecla){
     for(int i=0;i<vida/10;i++){cout<<' ';}
     for(int i=0;i<velocidad;i++){
     gotoxy(x,y);
-    cout<<" ";
+    cout<<" ";}
 
-    if(tecla=='d' or tecla=='D'){
+    if(tecla=='d' or tecla=='D' ){
+        if(x+1<=119)
         x=x+1;
     }
-    else if(tecla=='s' or tecla=='S'){
+    else if(tecla=='s' or tecla=='S' ){
+        if(y+1<=29)
         y=y+1;
     }
     else if(tecla=='a' or tecla=='A'){
@@ -112,7 +114,7 @@ void personaje::desplazamiento(char tecla){
     if(tecla=='f'){attack(1,'d');
     }
     gotoxy(x,y);
-    cout<<cuerpo;}
+    cout<<cuerpo;
 }
 
 void personaje::attack(int a,char b){
