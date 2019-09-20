@@ -1,24 +1,15 @@
-#include <string>
-#include <iostream>
-#include <cstdlib>
-#include "Arma.h"
-
-using namespace std;
-
-class personaje{
-private:
-    int vida,experiencia,defensa,nivel,velocidad;
-    Arma tipo1;
-    char cuerpo;
-public:
-    
-
-};
-
+#include "personaje.h"
 
 int main() {
     Arma uno("Excalibur",10,3,100);
-    uno.drop();
+    personaje principal(100,0,20,0,2,uno,'*');
+    while(true){
+    char a;
+    a = _getch();
+    if(a=='c'){break;}
+    principal.desplazamiento(a);
+    principal.estado();
+    }
     return 0;
 }
 
