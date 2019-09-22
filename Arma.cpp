@@ -6,6 +6,11 @@ int Arma::getAlcance() const
     return alcance;
 }
 
+string Arma::getNombre() const
+{
+    return nombre;
+}
+
 Arma::Arma(string x, int a, int b,int c ){
     nombre=x;
     dano=a;

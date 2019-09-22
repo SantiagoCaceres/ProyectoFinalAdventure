@@ -15,5 +15,5 @@ public:
     Obstaculo(int a,int b);
     void Dano_Area(map<vector<int>,Enemigo> &a,personaje &principal);
 };
-
+//El void movimiento quedará pendiente para cuando este bien definida las formulas fisicas
 #endif // OBSTACULO_H

@@ -10,6 +10,7 @@ SOURCES += \
         login.cpp \
         main.cpp \
         mapa.cpp \
+        menu.cpp \
         obstaculo.cpp \
         personaje.cpp
 
@@ -23,5 +24,6 @@ HEADERS += \
     item.h \
     login.h \
     mapa.h \
+    menu.h \
     obstaculo.h \
     personaje.h

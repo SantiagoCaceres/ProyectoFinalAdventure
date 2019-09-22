@@ -2,12 +2,14 @@
 #include "mapa.h"
 #include "item.h"
 #include "obstaculo.h"
+#include "menu.h"
 int main() {
+    Menu w;
     Arma uno("Excalibur",10,3,100);
     Arma uo("Martillo",2,4,2);
     personaje principal(100,0,20,0,1,uno,'*');
     mapa enemigos;
-    enemigos.generar(3,4,principal,uo);
+    enemigos.generar(3,1,principal,uo);
     Obstaculo s(0,21);
     map<vector<int>,Enemigo> r;
     r=enemigos.Get_Mapa();
@@ -20,6 +22,7 @@ int main() {
     enemigos.enemis_attack();
     principal.estado();
     }
+    w.Cargar_Guardar_Partida(principal,r);
     item a("Botas_Doran");
     a.cualidad();
     return 0;

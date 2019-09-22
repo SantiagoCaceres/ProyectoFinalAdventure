@@ -48,6 +48,36 @@ int personaje::getVida() const
     return vida;
 }
 
+Arma *personaje::getTipo1() const
+{
+    return tipo1;
+}
+
+int personaje::getExperiencia() const
+{
+    return experiencia;
+}
+
+int personaje::getDefensa() const
+{
+    return defensa;
+}
+
+int personaje::getNivel() const
+{
+    return nivel;
+}
+
+int personaje::getVelocidad() const
+{
+    return velocidad;
+}
+
+int personaje::getPuntos() const
+{
+    return puntos;
+}
+
 personaje::personaje(int a,int b,int c,int d,int e,Arma &x,char z){
     vida=a;
     experiencia=b;
@@ -119,6 +149,7 @@ void personaje::desplazamiento(char tecla){
     }
     gotoxy(x,y);
     cout<<cuerpo;
+
 }
 
 void personaje::attack(int a,char b){

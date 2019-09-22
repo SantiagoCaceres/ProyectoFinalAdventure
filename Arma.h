@@ -15,6 +15,7 @@ public:
     Arma(string,int,int,int);
     void drop();
     int getAlcance() const;
+    string getNombre() const;
 };
 
 #endif /* ARMA_H */

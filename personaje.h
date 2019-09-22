@@ -34,6 +34,12 @@ public:
     char getCuerpo() const;
     void setVida(int value);
     int getVida() const;
+    Arma *getTipo1() const;
+    int getExperiencia() const;
+    int getDefensa() const;
+    int getNivel() const;
+    int getVelocidad() const;
+    int getPuntos() const;
 };
 
 #endif // PERSONAJE_H
