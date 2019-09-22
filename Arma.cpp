@@ -15,6 +15,7 @@ Arma::Arma(string x, int a, int b,int c ){
 }
 
 void Arma::drop(){
+    //Si el jugador mata un enemigo se ejecutará este metodo que definira que item soltar o no soltar ninguno
 fstream Armas;
 string texto;
 Armas.open("Armas.txt",ios::in);

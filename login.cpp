@@ -12,6 +12,7 @@ void Login::verificacion()
   usuario.open("pr.txt",ios::in);
   cout<<"escribe tu nombre de usuario :"<<endl;
   getline(cin,nombre);
+  cin.ignore();
   while(!usuario.eof()){
       usuario>>data;
       if (data=="") break;
@@ -26,11 +27,13 @@ void Login::verificacion()
   if (c==1) {
      cout<<"Escribe tu caontrasena : "<<endl;
      getline(cin,contra);
+     cin.ignore();
      nom=data;
      nom.erase(0,nom.find("|")+10);
      while(contra!=nom){
          cout<<"Escribe tu caontrasena : "<<endl;
          getline(cin,contra);
+         cin.ignore();
      }
 
   }
@@ -52,11 +55,14 @@ void Login::Registro(){
     file.open("pr.txt",ios::out |ios::app);
     cout<<"Ingresa tu contrasena : ";
     getline(cin,password1);
+    cin.ignore();
     cout<<"Ingresa tu contrasena : ";
     getline(cin,password2);
+    cin.ignore();
     while(password1!=password2){
         cout<<"Ingresa tu contrasena : ";
         getline(cin,password2);
+        cin.ignore();
     }
     file <<"|password:"+password2 << endl;
     file.close();
@@ -69,6 +75,7 @@ void comprobar(){
     file.open("pr.txt",ios::in |ios::app);
     cout << "Ingresa tu nombre de usuario : ";
     getline(cin,name);
+    cin.ignore();
     while(!file.eof()){
         file>>data;
         nom=data;

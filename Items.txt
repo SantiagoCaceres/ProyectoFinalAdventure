@@ -1,0 +1,3 @@
+Escudo_Doran:15,15,0
+Malla_Doran:0,30,0
+Botas_Doran:0,0,25

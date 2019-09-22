@@ -1,6 +1,7 @@
 #include "personaje.h"
 
 //Especial consola
+//Funcion auxiliar para tener una representacion de grafica de todo lo que se implementa
 void gotoxy(int x,int y){
      HANDLE hcon;
      hcon = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -58,6 +59,7 @@ personaje::personaje(int a,int b,int c,int d,int e,Arma &x,char z){
 }
 
 int personaje::estado(){
+    //Cada que se realice un ataque o un movimiento se verificara el estado del enemigo o del usuario
     gotoxy(30,0);
     cout<<"Vida: ";
     for(int i=0;i<vida/10;i++){cout<<'#';}
@@ -74,6 +76,7 @@ int personaje::estado(){
 
 
 void personaje::respawn(){
+    //Cada que el usuario se regenere el metodo respawn inicializará algunas estadisticas y reacomodará la posicion del usuario, ejecutando la animacion de muerte
     vida=100;
     puntos=0;
     experiencia=0;
@@ -89,6 +92,7 @@ void personaje::respawn(){
 }
 
 void personaje::desplazamiento(char tecla){
+    //Este metodo recibe un char que sera la tecla presionada por el usuario, se encagara se visualizar la posicion del jugador y de realizar sus respectivos movimientos, ya sea un ataque o un desplazamiento, tambien tiene una funcion auxiliar y es actualizar la vida del usuario graficamente
     gotoxy(10,0);
     for(int i=0;i<vida/10;i++){cout<<' ';}
     for(int i=0;i<velocidad;i++){
@@ -118,6 +122,7 @@ void personaje::desplazamiento(char tecla){
 }
 
 void personaje::attack(int a,char b){
+    //el metodo realiza la animacion de ataque cada vez que se ejecute; recibe un entero y un char como parametros para verificar quien realiza la animacion y a que direccion se ejecuta
     gotoxy(x,y);
     if(a==1){
             cout<<"*";
@@ -148,3 +153,8 @@ void personaje::attack(int a,char b){
    }
     //condicional para ver si hay enemigos en esa pocicion
 }
+
+/* Falta implementar el retroceso del arma si se efectua un ataque exitoso aparte de poder realizar daño a los enemigos
+Impementar el Progress(); y autoLevel(); son metodos que definiremos cuando tengamos bien definido como será el proceso del mapa
+y la interracion con los enemigos en QtGraphics
+*/

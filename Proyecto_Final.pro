@@ -6,17 +6,22 @@ CONFIG -= qt
 SOURCES += \
         Arma.cpp \
         enemigo.cpp \
+        item.cpp \
         login.cpp \
         main.cpp \
         mapa.cpp \
+        obstaculo.cpp \
         personaje.cpp
 
 DISTFILES += \
-    Armas.txt
+    Armas.txt \
+    Items.txt
 
 HEADERS += \
     Arma.h \
     enemigo.h \
+    item.h \
     login.h \
     mapa.h \
+    obstaculo.h \
     personaje.h

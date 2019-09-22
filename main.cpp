@@ -1,7 +1,8 @@
 #include "enemigo.h"
 #include "mapa.h"
+#include "item.h"
 int main() {
-    Arma uno("Excalibur",10,3,100);
+    /*Arma uno("Excalibur",10,3,100);
     Arma uo("Martillo",2,4,2);
     personaje principal(100,0,20,0,1,uno,'*');
     mapa enemigos;
@@ -13,7 +14,9 @@ int main() {
     principal.desplazamiento(a);
     enemigos.enemis_attack();
     principal.estado();
-    }
+    }*/
+    item a("Botas_Doran");
+    a.cualidad();
     return 0;
 }
 

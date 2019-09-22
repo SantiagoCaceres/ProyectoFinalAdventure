@@ -16,23 +16,23 @@ prin=&principal;
 }
 
 void Enemigo::generar_posicion(){
-    srand(time(NULL));
     setX(rand());
     setY(rand());
-    setX(rand()%21);
+    setX(rand()%111);
     setY(rand()%21);
     desplazamiento('/');
 }
 
 void Enemigo::user_attack(){
+    //verifica si el jugador esta en rango de ataque, de ser asi realizara la animacion y bajará puntos de vida al jugador
     if(uX>getX() and uY==getY() and uX<=getX()+tipo1->getAlcance() ){
-        attack(0,'d');
+        attack(0,'d');//animacion derecha
         prin->setVida(prin->getVida()-20);
         desplazamiento('/');
         prin->desplazamiento('/');
     }
     else if(uX<getX() and uY==getY() and uX>=getX()-tipo1->getAlcance() ){
-        attack(0,'s');
+        attack(0,'s');//animacion izquierda
         prin->setVida(prin->getVida()-20);
         desplazamiento('/');
         prin->desplazamiento('/');
