@@ -14,6 +14,9 @@ public:
 
     void generar(int enemigos, int nivel,personaje &principal,Arma &a);
     void enemis_attack();
+    map<vector<int>,Enemigo> Get_Mapa(){
+        return posiciones;
+    }
 
 };
 

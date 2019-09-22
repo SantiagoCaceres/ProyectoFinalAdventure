@@ -7,6 +7,7 @@ name=a;
 }
 
 void item::cualidad(){
+    //Este metodo busca en el archivo cual es la cualidad del item mencionado en el atributo name y le agrega a vida, defensa y velocidad dichas cualidades;
     fstream archivo;
     string aux;
     archivo.open("C://Users//santy//Desktop//Codigo_Santy//ProyectoFinalAdventure//Items.txt",ios::in);
