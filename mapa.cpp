@@ -1,5 +1,10 @@
 #include "mapa.h"
 
+void mapa::setPosiciones(const map<vector<int>, Enemigo> &value)
+{
+    posiciones = value;
+}
+
 void mapa::generar(int enemigos, int nivel,personaje &principal,Arma &uno){
     //Esta funcion se encarga de generar el mapa, con las posiciones del usuario y un arma para darle a los enemigos
     prin=&principal;

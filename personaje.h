@@ -40,6 +40,13 @@ public:
     int getNivel() const;
     int getVelocidad() const;
     int getPuntos() const;
+    void setExperiencia(int value);
+    void setDefensa(int value);
+    void setNivel(int value);
+    void setVelocidad(int value);
+    void setPuntos(int value);
+    void setCuerpo(char value);
+    void setTipo1(Arma *value);
 };
 
 #endif // PERSONAJE_H

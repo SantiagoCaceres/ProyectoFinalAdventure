@@ -11,6 +11,26 @@ string Arma::getNombre() const
     return nombre;
 }
 
+void Arma::setDano(int value)
+{
+    dano = value;
+}
+
+void Arma::setAlcance(int value)
+{
+    alcance = value;
+}
+
+void Arma::setProbabilidad(int value)
+{
+    probabilidad = value;
+}
+
+void Arma::setNombre(const string &value)
+{
+    nombre = value;
+}
+
 Arma::Arma(string x, int a, int b,int c ){
     nombre=x;
     dano=a;

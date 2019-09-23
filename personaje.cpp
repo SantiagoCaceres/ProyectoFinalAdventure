@@ -78,6 +78,41 @@ int personaje::getPuntos() const
     return puntos;
 }
 
+void personaje::setExperiencia(int value)
+{
+    experiencia = value;
+}
+
+void personaje::setDefensa(int value)
+{
+    defensa = value;
+}
+
+void personaje::setNivel(int value)
+{
+    nivel = value;
+}
+
+void personaje::setVelocidad(int value)
+{
+    velocidad = value;
+}
+
+void personaje::setPuntos(int value)
+{
+    puntos = value;
+}
+
+void personaje::setCuerpo(char value)
+{
+    cuerpo = value;
+}
+
+void personaje::setTipo1(Arma *value)
+{
+    tipo1 = value;
+}
+
 personaje::personaje(int a,int b,int c,int d,int e,Arma &x,char z){
     vida=a;
     experiencia=b;
@@ -147,6 +182,7 @@ void personaje::desplazamiento(char tecla){
     }
     if(tecla=='f'){attack(1,'d');
     }
+
     gotoxy(x,y);
     cout<<cuerpo;
 

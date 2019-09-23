@@ -18,6 +18,7 @@ public:
         return posiciones;
     }
 
+    void setPosiciones(const map<vector<int>, Enemigo> &value);
 };
 
 #endif // MAP_H

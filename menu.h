@@ -4,6 +4,7 @@
 #include <time.h>
 #include <string>
 #include <chrono>
+#include <sstream>
 #include <ctime>
 #include <iostream>
 #include <mapa.h>

@@ -17,12 +17,14 @@ int main() {
     char a;
     a = char(_getch());
     if(a=='c'){break;}
+    else if(a=='p'){ w.Cargar_Guardar_Partida(principal,r);}
     principal.desplazamiento(a);
     s.Dano_Area(r,principal);
     enemigos.enemis_attack();
     principal.estado();
+
     }
-    w.Cargar_Guardar_Partida(principal,r);
+
     item a("Botas_Doran");
     a.cualidad();
     return 0;
