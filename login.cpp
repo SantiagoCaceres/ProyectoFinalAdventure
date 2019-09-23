@@ -9,40 +9,40 @@ void Login::verificacion()
   string nombre,nom,contra;
   fstream usuario;
   int c=0;
-  usuario.open("pr.txt",ios::in);
+  usuario.open("Users.txt",ios::in);
   cout<<"escribe tu nombre de usuario :"<<endl;
-  getline(cin,nombre);
-  cin.ignore();
+  cin>>nombre;
   while(!usuario.eof()){
       usuario>>data;
       if (data=="") break;
       nom=data;
       nom.erase(0,5);
       nom.resize(nom.find("|"));
-      if (nom==nombre) {
+      if (nombre==nom) {
           c++;
           break;
       }
     }
   if (c==1) {
      cout<<"Escribe tu caontrasena : "<<endl;
-     getline(cin,contra);
+     cin>>contra;
      cin.ignore();
      nom=data;
      nom.erase(0,nom.find("|")+10);
      while(contra!=nom){
+         cout<<"contrasena incorrecta..."<<endl;
          cout<<"Escribe tu caontrasena : "<<endl;
-         getline(cin,contra);
-         cin.ignore();
+         cin>>contra;
+
      }
 
   }
   else{
-      usuario.open("pr.txt",ios::out |ios::app);
+      usuario.open("Users.txt",ios::out |ios::app);
       usuario.close();
       cout<<"Cuenta no encontrada crea un usuario "<<endl;
       cout<<"Volver a Igresar el usuario"<<endl;
-      cout<<"Registrarse";
+      cout<<"o Registrarse";
   }
   usuario.close();
 
@@ -52,17 +52,14 @@ void Login::Registro(){
     comprobar();
     string password1,password2;
     fstream file;
-    file.open("pr.txt",ios::out |ios::app);
+    file.open("Users.txt",ios::out |ios::app);
     cout<<"Ingresa tu contrasena : ";
-    getline(cin,password1);
-    cin.ignore();
+    cin>>password1;
     cout<<"Ingresa tu contrasena : ";
-    getline(cin,password2);
-    cin.ignore();
+    cin>>password2;
     while(password1!=password2){
         cout<<"Ingresa tu contrasena : ";
-        getline(cin,password2);
-        cin.ignore();
+        cin>>password2;
     }
     file <<"|password:"+password2 << endl;
     file.close();
@@ -72,10 +69,9 @@ void comprobar(){
     string data;
     string name,nom;
     fstream file;
-    file.open("pr.txt",ios::in |ios::app);
+    file.open("Users.txt",ios::in |ios::app);
     cout << "Ingresa tu nombre de usuario : ";
-    getline(cin,name);
-    cin.ignore();
+    cin>>name;
     while(!file.eof()){
         file>>data;
         nom=data;
@@ -95,7 +91,7 @@ void comprobar(){
     file.close();
     if(name!=""){
         fstream outfile;
-        outfile.open("pr.txt",ios::out |ios::app);
+        outfile.open("Users.txt",ios::out |ios::app);
         outfile<<"user:"+name;
         outfile.close();
     }
