@@ -8,6 +8,7 @@ void Login::verificacion()
   string data;
   string nombre,nom,contra;
   fstream usuario;
+  bool salir=false;
   int c=0;
   usuario.open("Users.txt",ios::in);
   cout<<"escribe tu nombre de usuario :"<<endl;
@@ -24,6 +25,7 @@ void Login::verificacion()
       }
     }
   if (c==1) {
+
      cout<<"Escribe tu caontrasena : "<<endl;
      cin>>contra;
      cin.ignore();
@@ -35,16 +37,35 @@ void Login::verificacion()
          cin>>contra;
 
      }
+     cout<<"   Iniciaste sesion..."<<endl;
 
   }
   else{
+      cout<<"Cuenta no encontrada... "<<endl;
       usuario.open("Users.txt",ios::out |ios::app);
       usuario.close();
-      cout<<"Cuenta no encontrada crea un usuario "<<endl;
-      cout<<"Volver a Igresar el usuario"<<endl;
-      cout<<"o Registrarse";
-  }
+
+
+      cout<<nombre<<endl;
+      cout<<"1-Igresar usuario otra ves"<<endl;
+      cout<<"2-o Registrarse"<<endl;
+      cout<<"3-salir"<<endl;
+      int n;
+      cin>>n;
+      while(n==1 or n==2 or n==3){
+
+          if (n==1){verificacion();
+            n=4;
+          }
+          if (n==2){Registro();
+            n=4;
+          }
+          if (n==3) cout<<"saliste.."<<endl;
+      }
+
+ }
   usuario.close();
+
 
 }
 void Login::Registro(){
@@ -63,7 +84,7 @@ void Login::Registro(){
     }
     file <<"|password:"+password2 << endl;
     file.close();
-
+    cout<<"Ahora estas registrado ..."<<endl;
 }
 void comprobar(){
     string data;
@@ -74,11 +95,10 @@ void comprobar(){
     cin>>name;
     while(!file.eof()){
         file>>data;
+        if (data=="") break;
         nom=data;
         nom.erase(0,5);
         nom.resize(nom.find("|"));
-        cout<<"nom: "<<nom<<endl;
-        cout<<"data : "<<data<<endl;
         if(name==nom){
             nom="";
             name="";
