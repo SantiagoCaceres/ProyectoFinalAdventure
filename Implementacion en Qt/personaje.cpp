@@ -97,8 +97,16 @@ void Personaje::Damage(){
                 scene()->removeItem(this);
                 delete this;
             }
-            return;
+
         }
+        else if(typeid(*(colliding_items[i])) == typeid(Personaje)){
+            jugadores.at(0)->setVida(jugadores.at(0)->getVida()-0.01*Weapon->getDano());
+            if(jugadores.at(0)->getVida()<=0){
+                scene()->removeItem(jugadores.at(0));
+                delete(jugadores.at(0));
+            }
+        }
+        return;
     }}
 }
 

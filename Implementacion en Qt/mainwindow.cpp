@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "QGraphicsScene"
 #include "enemigo.h"
+#include "list"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,23 +11,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    list <Enemigo *> enemigos;
     Personaje *player=new Personaje(5,5,0,0,0,0,50,3,0.08,0.6);
-    Enemigo *play=new Enemigo(5,5,0,0,0,0,50,3,0.08,0);
-    play->setName("enemigo");
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
-    QGraphicsScene *scene=new QGraphicsScene;
     scene->addItem(player);
     player->getWeapon()->hide();
     scene->addItem(player->getVIDA());
     player->getVIDA()->show();
-    scene->addItem(play->getVIDA());
-    play->getVIDA()->show();
     scene->addItem(player->getWeapon());
     Players.push_back(player);
-    play->setJugadores(Players);
-    scene->addItem(play);
-    ui->graphicsView->setScene(scene);
+     ui->graphicsView->setScene(scene);
     ui->graphicsView->setFixedSize(1200,400);
     ui->graphicsView->setSceneRect(0,0,1200,400);
     ui->graphicsView->resize(int(scene->width()),int(scene->height()));
@@ -41,4 +36,16 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    Enemigo *play=new Enemigo(5,5,0,0,0,0,50,3,0.08,0);
+    play->setName("enemigo");//
+    play->getVIDA()->show();//
+    play->setJugadores(Players);
+    scene->addItem(play);
+    scene->addItem(play->getVIDA());
+
+
 }

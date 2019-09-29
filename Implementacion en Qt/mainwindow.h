@@ -17,7 +17,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
+    QGraphicsScene *scene=new QGraphicsScene;
     QList <Personaje *> Players;
     Ui::MainWindow *ui;
 };
