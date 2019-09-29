@@ -10,6 +10,7 @@
 #include <QObject>
 #include <QGraphicsEllipseItem>
 #include <QTimer>
+#include <QString>
 
 
 
@@ -22,6 +23,7 @@ public:
     void keyPressEvent(QKeyEvent * event);
     Personaje(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_);
     ~Personaje(){
+        delete(VIDA);
 
     }
     void set_vel(double velx, double vely, double px, double py);
@@ -39,11 +41,41 @@ public:
     double getE() const;
 
     void setWeapon(arma *value);
-
     arma *getWeapon() const;
+    void Damage();
+
+    //Estadisticas
+    void actualizarVIDA();
+
+    void setVida(int value);
+
+    int getVida() const;
+
+    int getDefensa() const;
+
+    void setDefensa(int value);
+
+    int getExperiencia() const;
+
+    void setExperiencia(int value);
+
+    int getNivel() const;
+
+    void setNivel(int value);
+
+    void setName(const QString &value);
+
+
+
+    void setJugadores(const QList<Personaje *> &value);
+
+    QGraphicsRectItem *getVIDA() const;
 
 protected:
-    arma *Weapon=new arma;
+    QGraphicsRectItem *VIDA=new QGraphicsRectItem(PX,PY-R*6,vida*10,2);
+    QList <Personaje *> jugadores;
+    arma *Weapon=new arma("Inicial",20,20,10);
+    QString name="Principal";
     int vida=100,experiencia=0,defensa=10,nivel=1,velocidad=5,puntos=0,saltos=0;
     double PX;//posicion en x
         double PY;//posicion en y

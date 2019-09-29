@@ -1,9 +1,12 @@
 #include "arma.h"
 #include "enemigo.h"
-arma::arma()
+arma::arma(QString _nombre,int _Dano,int _Alcance,int _Probabilidad)
 {
     setRect(0,0,20,5);
-    //Conexion
+    nombre=_nombre;
+    dano=_Dano;
+    alcance=_Alcance;
+    probabilidad=_Probabilidad;
 }
 
 void arma::Delete(){
@@ -11,16 +14,19 @@ void arma::Delete(){
 
 }
 
-void arma::move(){
-    if(this->isVisible()){
-    QList<QGraphicsItem *> colliding_items =collidingItems();
-    for (int i = 0, n = colliding_items.size();i<n;i++) {
-        if(typeid(*(colliding_items[i])) == typeid(Enemigo)){
-            scene()->removeItem(colliding_items[i]);
-            delete colliding_items[i];
-            return;
-        }
-    }}
-
-
+int arma::getProbabilidad() const
+{
+    return probabilidad;
 }
+
+int arma::getAlcance() const
+{
+    return alcance;
+}
+
+int arma::getDano() const
+{
+    return dano;
+}
+
+

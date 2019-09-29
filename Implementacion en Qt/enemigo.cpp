@@ -10,7 +10,7 @@ QTimer *b=new QTimer;
 QObject::connect(a,SIGNAL(timeout()),this,SLOT(actualizar()));
 a->start(10);
 QObject::connect(b,SIGNAL(timeout()),this,SLOT(move()));
-b->start(500);
+b->start(1000);
 }
 
 
@@ -18,9 +18,9 @@ void Enemigo::move(){
     srand(time(NULL));
     int random_number = 1+rand()%(3-1);
     if(random_number==1){
-    set_vel(VX+2,VY,PX,PY);}
+    set_vel(VX+15,VY,PX,PY);}
     else{
-    set_vel(VX-2,VY,PX,PY);}
+    set_vel(VX-15,VY,PX,PY);}
 
     if(pos().x() + rect().width() > 1200){
         scene()->removeItem(this);

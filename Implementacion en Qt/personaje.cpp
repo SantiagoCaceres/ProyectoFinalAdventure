@@ -9,6 +9,7 @@
 Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_)
 {
 
+
     PX = posX_;
     PY = posY_;
     mass = masa_;
@@ -23,6 +24,7 @@ Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX
     V = 0;
     dt = 0.1;
     setRect(posX_,posY_,largo,ancho);
+    VIDA->show();
     setScale(2);
     QTimer *timer=new QTimer;
     QObject::connect(timer,SIGNAL(timeout()),this,SLOT(actualizar()));
@@ -41,7 +43,6 @@ void Personaje::set_vel(double velx, double vely, double px, double py)
 
 void Personaje::actualizar()
 {
-
     V = pow(((VX*VX)+(VY*VY)),1/2);
         angulo = atan2(VY,VX);
         AX = -((K*(V*V)*(R*R))/mass)*cos(angulo);
@@ -50,12 +51,20 @@ void Personaje::actualizar()
         PY = PY + (VY*dt) +((AY*(dt*dt))/2);
         VX = VX + AX*dt;
         VY = VY + AY*dt;
+
+
         if(PX>1200-R*6){//posicion con el borde derecho.
             set_vel(-1*0.2*VX,VY, 1200-R*6, PY);
         }
         if(PY>400-R*6){
-            set_vel(VX,-1*VY*e,PX,400-R*6);
+            if(VX<0){
+            set_vel(VX+0.3,-1*VY*e,PX,400-R*6);}
+            else if(VX>0){
+            set_vel(VX-0.3,-1*VY*e,PX,400-R*6);}
+
             saltos=0;
+
+
         }
         if(PY<R){
             set_vel(VX,-1*VY*e,PX,R);
@@ -64,11 +73,34 @@ void Personaje::actualizar()
             set_vel(-1*VX*e,VY,R,PY);
         }
         setPos(PX,PY);
-        Weapon->setPos(PX,PY);Weapon->move();
+        Weapon->setPos(PX,PY);Damage();
+                actualizarVIDA();
+
+
 
 
 }
 
+void Personaje::actualizarVIDA()
+{
+    VIDA->setRect(PX-5,PY-R*3,vida/5,2);
+}
+
+void Personaje::Damage(){
+    if(name!="Principal"){
+    QList<QGraphicsItem *> colliding_items =collidingItems();
+    for (int i = 0, n = colliding_items.size();i<n;i++) {
+        if(typeid(*(colliding_items[i])) == typeid(arma)){
+            vida=vida-0.01*jugadores.at(0)->getWeapon()->getDano();
+            if(vida<=0){
+
+                scene()->removeItem(this);
+                delete this;
+            }
+            return;
+        }
+    }}
+}
 
 void Personaje::keyPressEvent(QKeyEvent *event){
 
@@ -133,6 +165,61 @@ void Personaje::setWeapon(arma *value)
 arma *Personaje::getWeapon() const
 {
     return Weapon;
+}
+
+void Personaje::setVida(int value)
+{
+    vida = value;
+}
+
+int Personaje::getVida() const
+{
+    return vida;
+}
+
+int Personaje::getDefensa() const
+{
+    return defensa;
+}
+
+void Personaje::setDefensa(int value)
+{
+    defensa = value;
+}
+
+int Personaje::getExperiencia() const
+{
+    return experiencia;
+}
+
+void Personaje::setExperiencia(int value)
+{
+    experiencia = value;
+}
+
+int Personaje::getNivel() const
+{
+    return nivel;
+}
+
+void Personaje::setNivel(int value)
+{
+    nivel = value;
+}
+
+void Personaje::setName(const QString &value)
+{
+    name = value;
+}
+
+void Personaje::setJugadores(const QList<Personaje *> &value)
+{
+    jugadores = value;
+}
+
+QGraphicsRectItem *Personaje::getVIDA() const
+{
+    return VIDA;
 }
 
 

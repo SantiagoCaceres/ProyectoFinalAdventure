@@ -5,18 +5,26 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QDebug>
-
-#include <QList>
+#include <QString>
 
 class arma: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    arma();
+
+    arma(QString _nombre,int _Dano,int _Alcance,int _Probabilidad);
+
+    int getDano() const;
+
+    int getAlcance() const;
+
+    int getProbabilidad() const;
 
 public slots:
-    void move();
     void Delete();
+private:
+    QString nombre;
+    int dano,alcance,probabilidad;
 };
 
 #endif // ARMA_H
