@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     list <Enemigo *> enemigos;
-    Personaje *player=new Personaje(5,5,0,0,0,0,50,3,0.08,0.6);
+    Personaje *player=new Personaje(5,5,0,0,0,0,50,3,0.08,0);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
     scene->addItem(player);
@@ -41,6 +41,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     Enemigo *play=new Enemigo(5,5,0,0,0,0,50,3,0.08,0);
+
     play->setName("enemigo");//
     play->getVIDA()->show();//
     play->setJugadores(Players);
