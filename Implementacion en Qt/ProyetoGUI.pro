@@ -26,16 +26,26 @@ CONFIG += c++11
 
 SOURCES += \
         arma.cpp \
+        asensor.cpp \
         enemigo.cpp \
+        inferior.cpp \
+        lateral.cpp \
         main.cpp \
         mainwindow.cpp \
-        personaje.cpp
+        personaje.cpp \
+        posterior.cpp \
+        suelo.cpp
 
 HEADERS += \
         arma.h \
+        asensor.h \
         enemigo.h \
+        inferior.h \
+        lateral.h \
         mainwindow.h \
-        personaje.h
+        personaje.h \
+        posterior.h \
+        suelo.h
 
 FORMS += \
         mainwindow.ui
