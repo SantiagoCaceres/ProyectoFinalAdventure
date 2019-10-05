@@ -26,15 +26,19 @@ CONFIG += c++11
 
 SOURCES += \
         arma.cpp \
+        asensor.cpp \
         enemigo.cpp \
         main.cpp \
         mainwindow.cpp \
+        obstacule.cpp \
         personaje.cpp
 
 HEADERS += \
         arma.h \
+        asensor.h \
         enemigo.h \
         mainwindow.h \
+        obstacule.h \
         personaje.h
 
 FORMS += \

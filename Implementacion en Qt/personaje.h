@@ -71,6 +71,8 @@ public:
 
     QGraphicsRectItem *getVIDA() const;
 
+    void setSaltos(int value);
+
 protected:
     QGraphicsRectItem *VIDA=new QGraphicsRectItem(PX,PY-R*6,vida*10,2);
     QList <Personaje *> jugadores;

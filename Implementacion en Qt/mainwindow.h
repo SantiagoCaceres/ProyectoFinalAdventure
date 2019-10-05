@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QList>
 #include "personaje.h"
+#include "obstacule.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,10 +20,12 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void actualizarmapa();
 
 private:
     QGraphicsScene *scene=new QGraphicsScene;
     QList <Personaje *> Players;
+    QList <Obstacule *> Obstaculos;
     Ui::MainWindow *ui;
 };
 

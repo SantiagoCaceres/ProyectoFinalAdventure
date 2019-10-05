@@ -26,9 +26,6 @@ Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX
     setRect(posX_,posY_,largo,ancho);
     VIDA->show();
     setScale(2);
-    QTimer *timer=new QTimer;
-    QObject::connect(timer,SIGNAL(timeout()),this,SLOT(actualizar()));
-    timer->start(10);
 }
 
 void Personaje::set_vel(double velx, double vely, double px, double py)
@@ -228,6 +225,11 @@ void Personaje::setJugadores(const QList<Personaje *> &value)
 QGraphicsRectItem *Personaje::getVIDA() const
 {
     return VIDA;
+}
+
+void Personaje::setSaltos(int value)
+{
+    saltos = value;
 }
 
 
