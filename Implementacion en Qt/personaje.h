@@ -44,6 +44,8 @@ public:
     arma *getWeapon() const;
     void Damage();
 
+
+
     //Estadisticas
     void actualizarVIDA();
 
@@ -65,7 +67,9 @@ public:
 
     void setName(const QString &value);
 
+    void Interaccion_obstaculo();
 
+    void Asender();
 
     void setJugadores(const QList<Personaje *> &value);
 

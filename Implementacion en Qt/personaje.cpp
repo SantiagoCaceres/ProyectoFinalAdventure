@@ -3,9 +3,11 @@
 #include <math.h>
 #include <math.h>
 #include <cmath>
-
-
-
+#include "suelo.h"
+#include "lateral.h"
+#include "posterior.h"
+#include "inferior.h"
+#include "asensor.h"
 Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_)
 {
 
@@ -58,9 +60,9 @@ void Personaje::actualizar()
         }
         if(PY>400-R*6){
             if(VX<0){
-            set_vel(VX+0.3,-1*VY*e,PX,400-R*6);}
+            set_vel(VX+0.1,-1*VY*e,PX,400-R*6);}
             else if(VX>0){
-            set_vel(VX-0.3,-1*VY*e,PX,400-R*6);}
+            set_vel(VX-0.1,-1*VY*e,PX,400-R*6);}
 
             saltos=0;
 
@@ -75,11 +77,12 @@ void Personaje::actualizar()
         setPos(PX,PY);
         Weapon->setPos(PX,PY);Damage();
                 actualizarVIDA();
-
-
+        Interaccion_obstaculo();
+        Asender();
 
 
 }
+
 
 void Personaje::actualizarVIDA()
 {
@@ -110,6 +113,8 @@ void Personaje::Damage(){
     }}
 }
 
+
+
 void Personaje::keyPressEvent(QKeyEvent *event){
 
     if(event->key() == Qt::Key_Left){
@@ -133,6 +138,97 @@ void Personaje::keyPressEvent(QKeyEvent *event){
         timer->start(500);
     }
 
+}
+void Personaje::Interaccion_obstaculo(){
+    if(this->isVisible()){
+    QList<QGraphicsItem *> colliding_items =collidingItems();
+    for (int i = 0, n = colliding_items.size();i<n;i++) {
+        if(typeid(*(colliding_items[i])) == typeid(Suelo)){
+            PY=PY-R/20;
+            if(VX<0){
+                set_vel(VX+0.3,-1*VY*e,PX,PY);
+                saltos=0;
+                }
+            else if(VX>0){
+                set_vel(VX-0.3,-1*VY*e,PX,PY);
+                saltos=0;
+                }
+
+            }
+        }
+    }
+    if(this->isVisible()){
+    QList<QGraphicsItem *> lateral_items =collidingItems();
+    for (int i = 0, n = lateral_items.size();i<n;i++) {
+        if(typeid(*(lateral_items[i])) == typeid(Lateral)){
+
+            set_vel(-1*0.2*VX,VY,PX, PY);
+
+        }
+      }
+    }
+    if(this->isVisible()){
+    QList<QGraphicsItem *> posterior_items =collidingItems();
+    for (int i = 0, n = posterior_items.size();i<n;i++) {
+        if(typeid(*(posterior_items[i])) == typeid(Posterior)){
+
+            set_vel(-1*0.2*VX,VY,PX, PY);
+
+        }
+      }
+    }
+    if(this->isVisible()){
+    QList<QGraphicsItem *> inferior_items =collidingItems();
+    for (int i = 0, n = inferior_items.size();i<n;i++) {
+        if(typeid(*(inferior_items[i])) == typeid(Inferior)){
+            if(VX<0){
+                set_vel(VX,9.8,PX,PY);
+                }
+            else if(VX>0){
+                set_vel(VX,9.8,PX,PY);
+
+                }
+        }
+      }
+    }
+}
+
+void Personaje::Asender(){
+    if(this->isVisible()){
+    QList<QGraphicsItem *> asensor_items =collidingItems();
+    for (int i = 0, n = asensor_items.size();i<n;i++) {
+        if(typeid(*(asensor_items[i])) == typeid(Asensor)){
+
+            PY=PY-R/20;
+            set_vel(VX,9.8,PX,PY);
+
+            if(VY<0){
+                PY=PY-R/20;
+                set_vel(VX,VY*0,PX,PY);
+
+
+                }
+            if(VY>0){
+                PY=PY-R/20;
+                set_vel(VX,-VY*e,PX,PY);
+
+            }
+
+            if(VX<0){
+                PY=PY-R/20;
+                set_vel(VX+0.3,VY*0,PX,PY);
+
+
+                }
+            if(VX>0){
+                PY=PY-R/20;
+                set_vel(VX-0.3,-VY*e,PX,PY);
+
+            }
+            saltos=0;
+        }
+      }
+    }
 }
 
 double Personaje::getPY() const
