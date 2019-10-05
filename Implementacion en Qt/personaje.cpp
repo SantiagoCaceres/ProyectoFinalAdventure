@@ -28,9 +28,7 @@ Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX
     setRect(posX_,posY_,largo,ancho);
     VIDA->show();
     setScale(2);
-    QTimer *timer=new QTimer;
-    QObject::connect(timer,SIGNAL(timeout()),this,SLOT(actualizar()));
-    timer->start(10);
+
 }
 
 void Personaje::set_vel(double velx, double vely, double px, double py)
@@ -55,8 +53,8 @@ void Personaje::actualizar()
         VY = VY + AY*dt;
 
 
-        if(PX>1200-R*6){//posicion con el borde derecho.
-            set_vel(-1*0.2*VX,VY, 1200-R*6, PY);
+        if(PX>3000-R*6){//posicion con el borde derecho.
+            set_vel(-1*0.2*VX,VY, 3000-R*6, PY);
         }
         if(PY>400-R*6){
             if(VX<0){

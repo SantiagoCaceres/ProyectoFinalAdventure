@@ -32,6 +32,7 @@ SOURCES += \
         lateral.cpp \
         main.cpp \
         mainwindow.cpp \
+        obstacule.cpp \
         personaje.cpp \
         posterior.cpp \
         suelo.cpp
@@ -43,6 +44,7 @@ HEADERS += \
         inferior.h \
         lateral.h \
         mainwindow.h \
+        obstacule.h \
         personaje.h \
         posterior.h \
         suelo.h

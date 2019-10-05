@@ -8,6 +8,7 @@
 #include "posterior.h"
 #include "inferior.h"
 #include "asensor.h"
+#include <QDebug>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -20,11 +21,13 @@ MainWindow::MainWindow(QWidget *parent) :
     Posterior *izquierda=new Posterior;
     Lateral *derecho=new Lateral;
     Inferior *bajo=new Inferior;
+    QGraphicsRectItem *r=new QGraphicsRectItem(3000,0,1,100);
     Asensor *up=new Asensor;
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();    
     scene->addItem(player);
     scene->addItem(earth);
+    scene->addItem(r);
     scene->addItem(izquierda);
     scene->addItem(derecho);
     scene->addItem(up);
@@ -36,15 +39,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Players.push_back(player);
     ui->graphicsView->setScene(scene);
-    ui->graphicsView->setFixedSize(1200,400);
-    ui->graphicsView->setSceneRect(0,0,1200,400);
+    ui->graphicsView->setFixedSize(1000,400);
+    ui->graphicsView->setSceneRect(0,0,3000,400);
     ui->graphicsView->resize(int(scene->width()),int(scene->height()));
     ui->centralWidget->adjustSize();
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    QTimer *timm=new QTimer;
+    connect(timm,SIGNAL(timeout()),this,SLOT(actualizarmapa()));
+    timm->start(10);
 
-
-
+    show();
 }
 
 MainWindow::~MainWindow()
@@ -62,5 +67,14 @@ void MainWindow::on_pushButton_clicked()
     scene->addItem(play);
     scene->addItem(play->getVIDA());
 
+
+}
+
+void MainWindow::actualizarmapa()
+{
+        Players.at(0)->actualizar();
+
+        ui->graphicsView->setSceneRect(Players.at(0)->getPX(),0,50,400);
+        qDebug()<<Players.at(0)->getPX();
 
 }
