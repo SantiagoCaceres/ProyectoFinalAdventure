@@ -1,0 +1,9 @@
+Ropa_vieja,0,2,0,100
+Escudo_Doran,15,15,0,100
+Malla_Doran,0,30,0,100
+Botas_Doran,0,0,25,100
+Placa_Muerto,10,5,5,100
+Diente_Nashor,30,0,0,100
+Sombrero,5,5,5,100
+Pocion,40,0,0,100
+Gema_avivorada,10,5,0,100

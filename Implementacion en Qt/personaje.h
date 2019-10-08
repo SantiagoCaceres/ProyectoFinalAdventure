@@ -2,6 +2,7 @@
 #define PERSONAJE_H
 #include <conio.h>
 #include <stdio.h>
+#include "item.h"
 #include <windows.h>
 #include "Arma.h"
 #include <QGraphicsRectItem>
@@ -43,9 +44,10 @@ public:
     void setWeapon(arma *value);
     arma *getWeapon() const;
     void Damage();
-
+    void Drop();
     //Estadisticas
     void actualizarVIDA();
+
 
     void setVida(int value);
 
@@ -71,10 +73,17 @@ public:
 
     QGraphicsRectItem *getVIDA() const;
 
+    void setSaltos(int value);
+
+    void setAccesorio(item *value);
+
+    item *getAccesorio() const;
+
 protected:
     QGraphicsRectItem *VIDA=new QGraphicsRectItem(PX,PY-R*6,vida*10,2);
     QList <Personaje *> jugadores;
-    arma *Weapon=new arma("Inicial",20,20,10);
+    item *Accesorio=new item("Ropa_vieja",0,2,0,0);
+    arma *Weapon=new arma("Espada_Oxidada",20,5,100);
     QString name="Principal";
     int vida=100,experiencia=0,defensa=10,nivel=1,velocidad=5,puntos=0,saltos=0;
     double PX;//posicion en x

@@ -20,6 +20,16 @@ public:
 
     int getProbabilidad() const;
 
+    void setDano(int value);
+
+    void setAlcance(int value);
+
+    void setProbabilidad(int value);
+
+    void setNombre(const QString &value);
+
+    QString getNombre() const;
+
 public slots:
     void Delete();
 private:

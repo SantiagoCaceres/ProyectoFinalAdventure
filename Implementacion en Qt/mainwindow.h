@@ -5,6 +5,7 @@
 #include <QList>
 #include "personaje.h"
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -19,6 +20,7 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void actualizarmapa();
 
 private:
     QGraphicsScene *scene=new QGraphicsScene;
