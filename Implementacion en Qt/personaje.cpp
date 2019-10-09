@@ -131,8 +131,7 @@ void Personaje::Damage(){
         f->start(500);
 
         QPixmap PixmapArma(":/Images/new");
-        a->setPixmap( PixmapArma.scaled(QSize(30, 20)));
-        Weapon->setPixmap( PixmapArma.scaled(QSize(30, 20)));
+        Weapon->setPixmap( PixmapArma.scaled(QSize(30, 30)));
 
 
 
