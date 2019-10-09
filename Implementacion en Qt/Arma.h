@@ -1,13 +1,13 @@
 #ifndef ARMA_H
 #define ARMA_H
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 #include <QObject>
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QString>
 
-class arma: public QObject, public QGraphicsRectItem
+class arma: public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
@@ -19,6 +19,16 @@ public:
     int getAlcance() const;
 
     int getProbabilidad() const;
+
+    void setDano(int value);
+
+    void setAlcance(int value);
+
+    void setProbabilidad(int value);
+
+    void setNombre(const QString &value);
+
+    QString getNombre() const;
 
 public slots:
     void Delete();

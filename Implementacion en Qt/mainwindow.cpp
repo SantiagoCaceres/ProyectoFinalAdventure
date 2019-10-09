@@ -5,6 +5,8 @@
 #include "list"
 #include "asensor.h"
 #include <QDebug>
+
+#include "QFileDialog"
 #include <obstacule.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,7 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     list <Enemigo *> enemigos;
-    Personaje *player=new Personaje(5,5,0,0,0,0,50,3,0.08,0);
+    Personaje *player=new Personaje(5,5,300,100,0,0,50,3,0.08,0);
+    player->setPos(100,100);
     Asensor *up=new Asensor;
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
@@ -23,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     scene->addItem(player->getVIDA());
     player->getVIDA()->show();
     scene->addItem(player->getWeapon());
-    Obstacule *uno=new Obstacule(100,350,100,20);
+    Obstacule *uno=new Obstacule(100,330,1000,20);
     scene->addItem(uno);
     Obstaculos.push_back(uno);
 
@@ -49,7 +52,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    Enemigo *play=new Enemigo(5,5,0,0,0,0,50,3,0.08,0);
+    Enemigo *play=new Enemigo(5,5,0,0,50,0,50,3,0.08,0);
 
     play->setName("enemigo");//
     play->getVIDA()->show();//
@@ -66,6 +69,6 @@ void MainWindow::actualizarmapa()
         Obstaculos.at(0)->setPrincipal(Players.at(0));
         Obstaculos.at(0)->colision();
         ui->graphicsView->setSceneRect(Players.at(0)->getPX(),0,50,400);
-        qDebug()<<Players.at(0)->getPX();
+        //qDebug()<<Players.at(0)->getPX();
 
 }

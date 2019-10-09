@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,6 +29,7 @@ SOURCES += \
         arma.cpp \
         asensor.cpp \
         enemigo.cpp \
+        item.cpp \
         main.cpp \
         mainwindow.cpp \
         obstacule.cpp \
@@ -37,6 +39,7 @@ HEADERS += \
         arma.h \
         asensor.h \
         enemigo.h \
+        item.h \
         mainwindow.h \
         obstacule.h \
         personaje.h
@@ -52,4 +55,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     Armas.txt \
     Items.txt \
+    Items.txt \
     juego.txt
+
+RESOURCES += \
+    recursos.qrc

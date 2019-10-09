@@ -7,6 +7,8 @@ Enemigo::Enemigo(int largo,int ancho,double posX_, double posY_, double velX_, d
 {
 QTimer *a=new QTimer;
 QTimer *b=new QTimer;
+QPixmap Pixmap(":/Images/bad");
+setPixmap( Pixmap.scaled(QSize(30, 30)));
 QObject::connect(a,SIGNAL(timeout()),this,SLOT(actualizar()));
 a->start(10);
 QObject::connect(b,SIGNAL(timeout()),this,SLOT(move()));
@@ -22,11 +24,11 @@ void Enemigo::move(){
     else{
     set_vel(VX-15,VY,PX,PY);}
 
-    if(pos().x() + rect().width() > 1200){
+    if(pos().x()> 1200){
         scene()->removeItem(this);
         delete this;
     }
-    else  if(pos().x() + rect().width() < 0){
+    else  if(pos().x()  < 0){
         scene()->removeItem(this);
         delete this;
     }

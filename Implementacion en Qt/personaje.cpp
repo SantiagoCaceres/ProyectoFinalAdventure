@@ -3,9 +3,15 @@
 #include <math.h>
 #include <math.h>
 #include <cmath>
+#include "asensor.h"
+#include <time.h>
+#include <stdlib.h>
+#include <QFile>
+#include <QTextStream>
+#include "QDebug"
 
-
-
+arma *a;
+item *i;
 Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_)
 {
 
@@ -23,9 +29,10 @@ Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX
     e = e_;
     V = 0;
     dt = 0.1;
-    setRect(posX_,posY_,largo,ancho);
+    QPixmap Pixmap(":/Images/hero");
+    setPixmap( Pixmap.scaled(QSize(30, 30)));
     VIDA->show();
-    setScale(2);
+
 }
 
 void Personaje::set_vel(double velx, double vely, double px, double py)
@@ -50,29 +57,29 @@ void Personaje::actualizar()
         VY = VY + AY*dt;
 
 
-        if(PX>1200-R*6){//posicion con el borde derecho.
-            set_vel(-1*0.2*VX,VY, 1200-R*6, PY);
+        if(PX+30>1200){//posicion con el borde derecho.
+            set_vel(-1*0.2*VX,VY, 1170, PY);
         }
-        if(PY>400-R*6){
+        if(PY+30>400){
             if(VX<0){
-            set_vel(VX+0.3,-1*VY*e,PX,400-R*6);}
+            set_vel(VX+0.3,-1*VY*e,PX,370);}
             else if(VX>0){
-            set_vel(VX-0.3,-1*VY*e,PX,400-R*6);}
+            set_vel(VX-0.3,-1*VY*e,PX,370);}
 
             saltos=0;
 
 
         }
-        if(PY<R){
-            set_vel(VX,-1*VY*e,PX,R);
+        if(PY<0){
+            set_vel(VX,-1*VY*e,PX,30);
         }
-        if(PX<R){
-            set_vel(-1*VX*e,VY,R,PY);
+        if(PX<0){
+            set_vel(-1*VX*e,VY,0,PY);
         }
         setPos(PX,PY);
-        Weapon->setPos(PX,PY);Damage();
+        Weapon->setPos(PX+20,PY+5);Damage();
                 actualizarVIDA();
-
+                Asender();
 
 
 
@@ -80,31 +87,155 @@ void Personaje::actualizar()
 
 void Personaje::actualizarVIDA()
 {
-    VIDA->setRect(PX-5,PY-R*3,vida/5,2);
+    VIDA->setRect(PX+5,PY-5,vida/5,2);
 }
 
 void Personaje::Damage(){
+     QList<QGraphicsItem *> colliding_items =collidingItems();
     if(name!="Principal"){
-    QList<QGraphicsItem *> colliding_items =collidingItems();
     for (int i = 0, n = colliding_items.size();i<n;i++) {
-        if(typeid(*(colliding_items[i])) == typeid(arma)){
+        if(typeid(*(colliding_items[i])) == typeid(arma) and this->collidesWithItem(jugadores.at(0)->getWeapon())){
             vida=vida-0.01*jugadores.at(0)->getWeapon()->getDano();
             if(vida<=0){
-
+                Drop();
                 scene()->removeItem(this);
                 delete this;
             }
 
         }
         else if(typeid(*(colliding_items[i])) == typeid(Personaje)){
-            jugadores.at(0)->setVida(jugadores.at(0)->getVida()-0.01*Weapon->getDano());
+            jugadores.at(0)->setVida(jugadores.at(0)->getVida()-(Weapon->getDano()/jugadores.at(0)->getDefensa()));
+
+            jugadores.at(0)->set_vel(VX*2,jugadores.at(0)->getVY(),jugadores.at(0)->getPX(),jugadores.at(0)->getPY());
+}
+
+
+
+
             if(jugadores.at(0)->getVida()<=0){
+                scene()->removeItem(jugadores.at(0)->getVIDA());
                 scene()->removeItem(jugadores.at(0));
-                delete(jugadores.at(0));
             }
         }
         return;
-    }}
+    }
+
+    else{
+
+       if(this->collidesWithItem(a) and a->isVisible()){
+
+        setWeapon(a);
+        QTimer *f=new QTimer;
+        connect(f,SIGNAL(timeout()),a,SLOT(Delete()));
+        f->setSingleShot(true);
+        f->start(500);
+
+        QPixmap PixmapArma(":/Images/new");
+        a->setPixmap( PixmapArma.scaled(QSize(30, 20)));
+        Weapon->setPixmap( PixmapArma.scaled(QSize(30, 20)));
+
+
+
+
+        }
+
+       else if(this->collidesWithItem(i) and i->isVisible()){
+           vida=vida+i->getVida();//Quitar accesorio antiguo Advertencia
+           defensa=defensa+i->getDefensa();
+           velocidad=velocidad+i->getVelocidad();
+           Weapon->setDano(Weapon->getDano()+i->getAtaque());
+
+           setAccesorio(i);
+           QTimer *f=new QTimer;
+           connect(f,SIGNAL(timeout()),i,SLOT(Delete()));
+           f->setSingleShot(true);
+           f->start(500);
+
+
+
+
+
+           }
+
+
+
+
+    }
+}
+
+
+void Personaje::Drop()
+{
+    srand(time(NULL));
+    int probabilidad;
+    probabilidad=rand()%(2);
+    srand(time(NULL));
+    int probabilidad3=rand()%(100);
+    int probuser=jugadores.at(0)->getWeapon()->getProbabilidad();
+    if (probabilidad<=0){
+        QFile armas;
+        armas.setFileName("C:/Users/santy/Desktop/Obstacule_Branch/ProyectoFinalAdventure/Implementacion en Qt/Armas.txt");
+        armas.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&armas);
+
+        if(probabilidad3<=probuser){
+        int cont=0;
+        int probabilidad2;
+        srand(time(NULL));
+        probabilidad2=rand()%(21);
+        while (!in.atEnd()) {
+               QString line = in.readLine();
+               cont++;
+               if(cont==probabilidad2){
+                   QStringList list1 = line.split(',');
+                   QString nombre=list1.at(0);
+                   int dano,alcance,prob;
+                   dano=list1.at(1).toInt();
+                   alcance=list1.at(2).toInt();
+                   prob=list1.at(3).toInt();
+
+                   a=new arma(nombre,dano,alcance,prob);
+                   QPixmap PixmapArma(":/Images/bullet");
+
+                   a->setPos(PX,PY);
+                   a->setPixmap( PixmapArma.scaled(QSize(30, 30)));
+                   a->setPos(PX,PY);
+                   scene()->addItem(a);
+                   break;
+               }
+           }}
+    }
+    else if (probabilidad==1){
+        QFile accesorios;
+        accesorios.setFileName("C:/Users/santy/Desktop/Obstacule_Branch/ProyectoFinalAdventure/Implementacion en Qt/Items.txt");
+        accesorios.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&accesorios);
+        if(probabilidad3<=probuser){
+        int cont=0;
+        int probabilidad2;
+        srand(time(NULL));
+        probabilidad2=rand()%(8);
+        while (!in.atEnd()) {
+               QString line = in.readLine();
+               cont++;
+               if(cont==probabilidad2){
+                   QStringList list1 = line.split(',');
+                   QString nombre=list1.at(0);
+                   int life,defense,speed,attack;
+                   life=list1.at(1).toInt();
+                   defense=list1.at(2).toInt();
+                   speed=list1.at(3).toInt();
+                   attack=list1.at(4).toInt();
+                   i=new item(nombre,life,defense,speed,attack);
+                   i->setPos(PX,PY);
+                   i->setRect(0,0,1,5);
+
+                   scene()->addItem(i);
+                   break;
+               }
+           }}
+
+    }
 }
 
 void Personaje::keyPressEvent(QKeyEvent *event){
@@ -164,7 +295,10 @@ double Personaje::getE() const
 
 void Personaje::setWeapon(arma *value)
 {
-    Weapon = value;
+ Weapon->setNombre(value->getNombre());
+ Weapon->setDano(value->getDano());
+ Weapon->setAlcance(value->getAlcance());
+ Weapon->setProbabilidad(value->getProbabilidad());
 }
 
 arma *Personaje::getWeapon() const
@@ -230,6 +364,59 @@ QGraphicsRectItem *Personaje::getVIDA() const
 void Personaje::setSaltos(int value)
 {
     saltos = value;
+}
+
+void Personaje::Asender(){
+    if(this->isVisible()){
+    QList<QGraphicsItem *> asensor_items =collidingItems();
+    for (int i = 0, n = asensor_items.size();i<n;i++) {
+        if(typeid(*(asensor_items[i])) == typeid(Asensor)){
+
+            PY=PY-R/20;
+            set_vel(VX,9.8,PX,PY);
+
+            if(VY<0){
+                PY=PY-R/20;
+                set_vel(VX,VY*0,PX,PY);
+
+
+                }
+            if(VY>0){
+                PY=PY-R/20;
+                set_vel(VX,-VY*e,PX,PY);
+
+            }
+
+            if(VX<0){
+                PY=PY-R/20;
+                set_vel(VX+0.3,VY*0,PX,PY);
+
+
+                }
+            if(VX>0){
+                PY=PY-R/20;
+                set_vel(VX-0.3,-VY*e,PX,PY);
+
+            }
+            saltos=0;
+        }
+      }
+    }
+}
+
+void Personaje::setAccesorio(item *value)
+{
+    Accesorio->setName(value->getName());
+    Accesorio->setVida(value->getVida());
+    Accesorio->setDefensa(value->getDefensa());
+    Accesorio->setVelocidad(value->getVelocidad());
+    Accesorio->setAtaque(value->getAtaque());
+
+}
+
+item *Personaje::getAccesorio() const
+{
+    return Accesorio;
 }
 
 
