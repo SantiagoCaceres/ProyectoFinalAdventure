@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    Personaje *player=new Personaje(5,5,300,100,0,0,50,3,0.08,0);
+    Personaje *player=new Personaje(300,100,0,0,50,3,0.08,0);
     player->setPos(100,100);
     Ascensor *up=new Ascensor(650,100,20,300);
     player->setFlag(QGraphicsItem::ItemIsFocusable);

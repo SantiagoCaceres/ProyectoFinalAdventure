@@ -3,7 +3,7 @@
 
 
 
-Enemigo::Enemigo(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_):Personaje (largo,ancho,posX_,posY_, velX_, velY_, masa_, radio_, K_, e_)
+Enemigo::Enemigo(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_):Personaje (posX_,posY_, velX_, velY_, masa_, radio_, K_, e_)
 {
 QTimer *a=new QTimer;
 QTimer *b=new QTimer;
