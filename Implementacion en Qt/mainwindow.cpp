@@ -3,7 +3,7 @@
 #include "QGraphicsScene"
 #include "enemigo.h"
 #include "list"
-#include "asensor.h"
+#include "ascensor.h"
 #include <QDebug>
 
 #include "QFileDialog"
@@ -14,10 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    list <Enemigo *> enemigos;
     Personaje *player=new Personaje(5,5,300,100,0,0,50,3,0.08,0);
     player->setPos(100,100);
-    Asensor *up=new Asensor;
+    Ascensor *up=new Ascensor(650,100,20,300);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
     scene->addItem(player);
@@ -26,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     scene->addItem(player->getVIDA());
     player->getVIDA()->show();
     scene->addItem(player->getWeapon());
-    Obstacule *uno=new Obstacule(100,330,1000,20);
+    Obstacule *uno=new Obstacule(100,330,100,20);
     scene->addItem(uno);
     Obstaculos.push_back(uno);
 
@@ -38,9 +37,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->centralWidget->adjustSize();
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    QPixmap fondo(":/Images/BackGround.png");
+    fondo=fondo.scaled(QSize(1000,400),Qt::KeepAspectRatioByExpanding);
+    ui->graphicsView-> setBackgroundBrush(QBrush(fondo));
     QTimer *timm=new QTimer;
     connect(timm,SIGNAL(timeout()),this,SLOT(actualizarmapa()));
     timm->start(10);
+
+    /*QPixmap PixmapArma(":/Images/ItemsAndWeapon.png");
+    PixmapArma=PixmapArma.copy(530,380+50*2,50,50);
+    PixmapArma=PixmapArma.scaled(30,20,Qt::KeepAspectRatioByExpanding);
+    scene->addPixmap(PixmapArma);*/
+
+
+
+
 
     show();
 }

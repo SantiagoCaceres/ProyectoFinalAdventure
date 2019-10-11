@@ -27,7 +27,7 @@ CONFIG += c++11
 
 SOURCES += \
         arma.cpp \
-        asensor.cpp \
+        ascensor.cpp \
         enemigo.cpp \
         item.cpp \
         main.cpp \
@@ -37,7 +37,7 @@ SOURCES += \
 
 HEADERS += \
         arma.h \
-        asensor.h \
+        ascensor.h \
         enemigo.h \
         item.h \
         mainwindow.h \

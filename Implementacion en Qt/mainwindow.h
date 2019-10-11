@@ -3,8 +3,9 @@
 #include <QGraphicsScene>
 #include <QMainWindow>
 #include <QList>
-#include "personaje.h"
 #include "obstacule.h"
+#include "enemigo.h"
+#include "ascensor.h"
 
 namespace Ui {
 class MainWindow;
@@ -25,7 +26,9 @@ private slots:
 private:
     QGraphicsScene *scene=new QGraphicsScene;
     QList <Personaje *> Players;
+    QList <Enemigo *> enemigos;
     QList <Obstacule *> Obstaculos;
+    QList <Ascensor *> Obstaculosdas;
     Ui::MainWindow *ui;
 };
 

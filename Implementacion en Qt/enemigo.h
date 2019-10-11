@@ -2,7 +2,7 @@
 #define ENEMIGO_H
 
 
-#endif // ENEMIGO_H
+
 #include "personaje.h"
 #include<time.h>
 #include<stdlib.h>
@@ -20,4 +20,4 @@ public slots:
     void move();
     //void user_attack();
 };
-
+#endif // ENEMIGO_H

@@ -1,11 +1,11 @@
 #ifndef OBSTACULE_H
 #define OBSTACULE_H
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 #include <QObject>
 #include "personaje.h"
 
 
-class Obstacule:public QObject, public QGraphicsRectItem
+class Obstacule:public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:

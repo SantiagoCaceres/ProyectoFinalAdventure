@@ -1,13 +1,13 @@
 #ifndef ITEM_H
 #define ITEM_H
-#include <QGraphicsRectItem>
+#include <QGraphicsPathItem>
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QString>
 using namespace std;
 
 
-class item: public QObject, public QGraphicsRectItem
+class item: public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 private:

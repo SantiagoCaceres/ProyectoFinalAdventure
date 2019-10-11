@@ -3,16 +3,17 @@
 #include <math.h>
 #include <math.h>
 #include <cmath>
-#include "asensor.h"
+#include "ascensor.h"
 #include <time.h>
 #include <stdlib.h>
 #include <QFile>
 #include <QTextStream>
 #include "QDebug"
+#include "QLabel"
 
 arma *a;
 item *i;
-Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_)
+Personaje::Personaje(double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_)
 {
 
 
@@ -29,7 +30,8 @@ Personaje::Personaje(int largo,int ancho,double posX_, double posY_, double velX
     e = e_;
     V = 0;
     dt = 0.1;
-    QPixmap Pixmap(":/Images/hero");
+    QPixmap Pixmap(":/Images/hero.png");
+    Pixmap = Pixmap.transformed(QTransform().scale(1, 1));
     setPixmap( Pixmap.scaled(QSize(30, 30)));
     VIDA->show();
 
@@ -77,7 +79,7 @@ void Personaje::actualizar()
             set_vel(-1*VX*e,VY,0,PY);
         }
         setPos(PX,PY);
-        Weapon->setPos(PX+20,PY+5);Damage();
+        Weapon->setPos(PX+direccion,PY+5);Damage();
                 actualizarVIDA();
                 Asender();
 
@@ -130,8 +132,8 @@ void Personaje::Damage(){
         f->setSingleShot(true);
         f->start(500);
 
-        QPixmap PixmapArma(":/Images/new");
-        Weapon->setPixmap( PixmapArma.scaled(QSize(30, 30)));
+        Weapon->setPixmap(a->pixmap());
+        direccion=20;
 
 
 
@@ -139,36 +141,31 @@ void Personaje::Damage(){
         }
 
        else if(this->collidesWithItem(i) and i->isVisible()){
-           vida=vida+i->getVida();//Quitar accesorio antiguo Advertencia
-           defensa=defensa+i->getDefensa();
-           velocidad=velocidad+i->getVelocidad();
-           Weapon->setDano(Weapon->getDano()+i->getAtaque());
 
+           vida=vida+i->getVida();//Quitar accesorio antiguo Advertencia
+           vida=vida-Accesorio->getVida();
+           defensa=defensa+i->getDefensa();
+           defensa=defensa-Accesorio->getDefensa();
+           velocidad=velocidad+i->getVelocidad();
+           velocidad=velocidad-Accesorio->getVelocidad();
+           Weapon->setDano(Weapon->getDano()+i->getAtaque());
+           Weapon->setDano(Weapon->getDano()-Accesorio->getAtaque());
            setAccesorio(i);
            QTimer *f=new QTimer;
            connect(f,SIGNAL(timeout()),i,SLOT(Delete()));
            f->setSingleShot(true);
            f->start(500);
 
-
-
-
-
            }
-
-
-
-
     }
 }
 
 
 void Personaje::Drop()
 {
-    srand(time(NULL));
+    srand(time(0));
     int probabilidad;
     probabilidad=rand()%(2);
-    srand(time(NULL));
     int probabilidad3=rand()%(100);
     int probuser=jugadores.at(0)->getWeapon()->getProbabilidad();
     if (probabilidad<=0){
@@ -180,7 +177,6 @@ void Personaje::Drop()
         if(probabilidad3<=probuser){
         int cont=0;
         int probabilidad2;
-        srand(time(NULL));
         probabilidad2=rand()%(21);
         while (!in.atEnd()) {
                QString line = in.readLine();
@@ -194,15 +190,19 @@ void Personaje::Drop()
                    prob=list1.at(3).toInt();
 
                    a=new arma(nombre,dano,alcance,prob);
-                   QPixmap PixmapArma(":/Images/bullet");
+                   QPixmap PixmapArma(":/Images/ItemsAndWeapon.png");
+                   PixmapArma=PixmapArma.copy(cont*48,150,50,50);
+                   a->setPixmap(PixmapArma.scaled(30,20,Qt::KeepAspectRatioByExpanding));
 
                    a->setPos(PX,PY);
                    a->setPixmap( PixmapArma.scaled(QSize(30, 30)));
                    a->setPos(PX,PY);
                    scene()->addItem(a);
+
                    break;
                }
-           }}
+           }
+        }
     }
     else if (probabilidad==1){
         QFile accesorios;
@@ -226,14 +226,20 @@ void Personaje::Drop()
                    speed=list1.at(3).toInt();
                    attack=list1.at(4).toInt();
                    i=new item(nombre,life,defense,speed,attack);
-                   i->setPos(PX,PY);
-                   i->setRect(0,0,1,5);
 
+                   QPixmap PixmapItem(":/Images/ItemsAndWeapon.png");
+                   if(cont>=6){
+                   PixmapItem=PixmapItem.copy(530,380+50*cont,50,50);}
+                   else{
+                       PixmapItem=PixmapItem.copy(50*cont,390+50*cont,50,50);
+                   }
+                   i->setPixmap(PixmapItem.scaled(30,30,Qt::KeepAspectRatioByExpanding));
+                   i->setPos(PX,PY);
                    scene()->addItem(i);
+
                    break;
                }
            }}
-
     }
 }
 
@@ -241,9 +247,15 @@ void Personaje::keyPressEvent(QKeyEvent *event){
 
     if(event->key() == Qt::Key_Left){
         set_vel(-velocidad*3,VY,PX,PY);
+        if(direccion!=-20){
+        Weapon->setPixmap(Weapon->pixmap().transformed(QTransform().scale(-1, 1)));
+        direccion=-20;}
     }
     else if (event->key() == Qt::Key_Right) {
         set_vel(velocidad*3,VY,PX,PY);
+        if(direccion!=20){
+        direccion=20;
+        Weapon->setPixmap(Weapon->pixmap().transformed(QTransform().scale(-1, 1)));}
     }
     else if(event->key() == Qt::Key_Up and saltos<2){
         set_vel(VX,-velocidad*5,PX,PY);
@@ -259,7 +271,6 @@ void Personaje::keyPressEvent(QKeyEvent *event){
         timer->setSingleShot(true);
         timer->start(500);
     }
-
 }
 
 double Personaje::getPY() const
@@ -367,9 +378,9 @@ void Personaje::setSaltos(int value)
 
 void Personaje::Asender(){
     if(this->isVisible()){
-    QList<QGraphicsItem *> asensor_items =collidingItems();
-    for (int i = 0, n = asensor_items.size();i<n;i++) {
-        if(typeid(*(asensor_items[i])) == typeid(Asensor)){
+    QList<QGraphicsItem *> Ascensor_items =collidingItems();
+    for (int i = 0, n = Ascensor_items.size();i<n;i++) {
+        if(typeid(*(Ascensor_items[i])) == typeid(Ascensor)){
 
             PY=PY-R/20;
             set_vel(VX,9.8,PX,PY);

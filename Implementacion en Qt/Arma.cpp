@@ -2,8 +2,9 @@
 #include "enemigo.h"
 arma::arma(QString _nombre,int _Dano,int _Alcance,int _Probabilidad)
 {
-    QPixmap Pixmap(":/Images/Espada");
-    setPixmap( Pixmap.scaled(QSize(30, 20)));
+    QPixmap Pixmap(":/Images/ItemsAndWeapon.png");
+    Pixmap=Pixmap.copy(0,150,50,50);
+    setPixmap( Pixmap.scaled(QSize(30, 20),Qt::KeepAspectRatioByExpanding));
     nombre=_nombre;
     dano=_Dano;
     alcance=_Alcance;

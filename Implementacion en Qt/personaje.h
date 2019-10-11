@@ -12,6 +12,7 @@
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QString>
+#include <QMovie>
 
 
 
@@ -22,7 +23,7 @@ class Personaje:public QObject,public QGraphicsPixmapItem
     Q_OBJECT
 public:
     void keyPressEvent(QKeyEvent * event);
-    Personaje(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_);
+    Personaje(double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_);
     ~Personaje(){
         delete(VIDA);
 
@@ -87,6 +88,7 @@ protected:
     arma *Weapon=new arma("Espada_Oxidada",20,5,100);
 
     QString name="Principal";
+    int direccion=20;
     int vida=100,experiencia=0,defensa=10,nivel=1,velocidad=5,puntos=0,saltos=0;
     double PX;//posicion en x
         double PY;//posicion en y
