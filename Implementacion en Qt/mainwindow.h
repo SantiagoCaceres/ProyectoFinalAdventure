@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include <QGraphicsScene>
+
 #include <QMainWindow>
-#include <QList>
-#include "personaje.h"
+//#include "registro.h"
+#include "login.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,12 +18,15 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    //void on_pushButton_clicked();
+
+    //void on_pushButton_2_clicked();
 
 private:
-    QGraphicsScene *scene=new QGraphicsScene;
-    QList <Personaje *> Players;
     Ui::MainWindow *ui;
+    Login * login;
+    //Registro * registro;
+
 };
 
 #endif // MAINWINDOW_H
