@@ -50,6 +50,7 @@ public:
     void actualizarVIDA();
 
 
+
     void setVida(int value);
 
     int getVida() const;
@@ -81,14 +82,21 @@ public:
 
     item *getAccesorio() const;
 
+    int getAttack() const;
+
+    void setAttack(int value);
+
 protected:
     QGraphicsRectItem *VIDA=new QGraphicsRectItem(PX+30,PY-R*6,vida*10,2);
     QList <Personaje *> jugadores;
+    int att=0;
     item *Accesorio=new item("Ropa_vieja",0,2,0,0);
     arma *Weapon=new arma("Espada_Oxidada",20,5,100);
-
+    int mCurrentFrame=0;
     QString name="Principal";
-    int direccion=20;
+    QTimer *spriter=new QTimer;
+
+    int direccion=15;
     int vida=100,experiencia=0,defensa=10,nivel=1,velocidad=5,puntos=0,saltos=0;
     double PX;//posicion en x
         double PY;//posicion en y
@@ -109,6 +117,7 @@ protected:
     //double gravedad;
 public slots:
     void actualizar();
+    void sprite();
 
 };
 

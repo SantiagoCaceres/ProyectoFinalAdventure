@@ -25,7 +25,7 @@ void Obstacule::colision(){
         if(typeid(*(posterior_items[i])) == typeid(Personaje)){
         if(principal->getVY()>0 and principal->getPY()<PY and principal->getPX()<PX+anc and principal->getPX()>PX){
 
-        principal->set_vel(principal->getVX(),9.8,principal->getPX(),PY-25);
+        principal->set_vel(principal->getVX(),9.8,principal->getPX(),PY-30);
         }
 
 

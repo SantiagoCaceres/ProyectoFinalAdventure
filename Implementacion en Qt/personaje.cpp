@@ -30,9 +30,10 @@ Personaje::Personaje(double posX_, double posY_, double velX_, double velY_, dou
     e = e_;
     V = 0;
     dt = 0.1;
-    QPixmap Pixmap(":/Images/hero.png");
-    Pixmap = Pixmap.transformed(QTransform().scale(1, 1));
+    QPixmap Pixmap(":/Images/Ghost.png");
+    Pixmap=Pixmap.copy(0,32*4,32,32);
     setPixmap( Pixmap.scaled(QSize(30, 30)));
+    connect(spriter,SIGNAL(timeout()),this,SLOT(sprite()));
     VIDA->show();
 
 }
@@ -79,7 +80,7 @@ void Personaje::actualizar()
             set_vel(-1*VX*e,VY,0,PY);
         }
         setPos(PX,PY);
-        Weapon->setPos(PX+direccion,PY+5);Damage();
+        Weapon->setPos(PX+direccion,PY+2);Damage();
                 actualizarVIDA();
                 Asender();
 
@@ -96,29 +97,29 @@ void Personaje::Damage(){
      QList<QGraphicsItem *> colliding_items =collidingItems();
     if(name!="Principal"){
     for (int i = 0, n = colliding_items.size();i<n;i++) {
-        if(typeid(*(colliding_items[i])) == typeid(arma) and this->collidesWithItem(jugadores.at(0)->getWeapon())){
-            vida=vida-0.01*jugadores.at(0)->getWeapon()->getDano();
-            if(vida<=0){
-                Drop();
-                scene()->removeItem(this);
-                delete this;
+        if(typeid(*(colliding_items[i])) == typeid(Personaje)){
+            if(att!=1)
+            att=1;
+            if(jugadores.at(0)->getAttack()==0){
+            jugadores.at(0)->setVida(jugadores.at(0)->getVida()-(Weapon->getDano()/jugadores.at(0)->getDefensa()));
+            jugadores.at(0)->set_vel(VX*2,jugadores.at(0)->getVY(),jugadores.at(0)->getPX(),jugadores.at(0)->getPY());}
+            else{
+                vida=vida-0.02*jugadores.at(0)->getWeapon()->getDano();
+
+
+
+                if(vida<=0){
+                    delete this;
+                }
             }
 
-        }
-        else if(typeid(*(colliding_items[i])) == typeid(Personaje)){
-            jugadores.at(0)->setVida(jugadores.at(0)->getVida()-(Weapon->getDano()/jugadores.at(0)->getDefensa()));
-
-            jugadores.at(0)->set_vel(VX*2,jugadores.at(0)->getVY(),jugadores.at(0)->getPX(),jugadores.at(0)->getPY());
-}
-
-
-
+}}
 
             if(jugadores.at(0)->getVida()<=0){
-                scene()->removeItem(jugadores.at(0)->getVIDA());
-                scene()->removeItem(jugadores.at(0));
+                jugadores.at(0)->getVIDA()->hide();
+                jugadores.at(0)->setAttack(2);
             }
-        }
+
         return;
     }
 
@@ -133,7 +134,7 @@ void Personaje::Damage(){
         f->start(500);
 
         Weapon->setPixmap(a->pixmap());
-        direccion=20;
+        direccion=15;
 
 
 
@@ -245,16 +246,22 @@ void Personaje::Drop()
 
 void Personaje::keyPressEvent(QKeyEvent *event){
 
+    if(!spriter->isActive()){
+    spriter->start(100);}
+
     if(event->key() == Qt::Key_Left){
         set_vel(-velocidad*3,VY,PX,PY);
-        if(direccion!=-20){
+
+        if(direccion!=-15){
         Weapon->setPixmap(Weapon->pixmap().transformed(QTransform().scale(-1, 1)));
-        direccion=-20;}
+        direccion=-15;}
+
     }
     else if (event->key() == Qt::Key_Right) {
         set_vel(velocidad*3,VY,PX,PY);
-        if(direccion!=20){
-        direccion=20;
+
+        if(direccion!=15){
+        direccion=15;
         Weapon->setPixmap(Weapon->pixmap().transformed(QTransform().scale(-1, 1)));}
     }
     else if(event->key() == Qt::Key_Up and saltos<2){
@@ -265,7 +272,9 @@ void Personaje::keyPressEvent(QKeyEvent *event){
         set_vel(0,VY+velocidad*3,PX,PY);
     }
     else if(event->key() == Qt::Key_F){
-        Weapon->show();
+        if(att!=2){
+            att=1;}
+        mCurrentFrame = 0;
         QTimer * timer = new QTimer();
         connect(timer,SIGNAL(timeout()),Weapon,SLOT(Delete()));
         timer->setSingleShot(true);
@@ -429,4 +438,102 @@ item *Personaje::getAccesorio() const
     return Accesorio;
 }
 
+int Personaje::getAttack() const
+{
+    return att;
+}
+
+void Personaje::setAttack(int value)
+{
+    att = value;
+}
+
+void Personaje::sprite(){
+
+        if(name=="Principal"){
+            mCurrentFrame += 32;
+                if (mCurrentFrame >= 320 ){
+                    if(att==1){
+                        att=0;
+                    }
+                    else if(att==2){
+                        hide();
+                        VIDA->hide();
+                    }
+                    mCurrentFrame = 0;}
+        QPixmap mover(":/Images/Ghost.png");
+        if(att==1){
+            mover=mover.copy(mCurrentFrame,32*3,32,32);
+            if(direccion<0){mover = mover.transformed(QTransform().scale(-1, 1));}
+
+        }
+        else if(att==2){
+            mover=mover.copy(mCurrentFrame,32*4,32,32);
+            if(direccion<0){mover = mover.transformed(QTransform().scale(-1, 1));}
+        }
+        else if(VX<1 and VX>-1){
+            if(direccion<0){
+                 mover = mover.transformed(QTransform().scale(-1, 1));
+            }
+            mover=mover.copy(mCurrentFrame,32*2,32,32);
+            mCurrentFrame=0;
+
+        }
+        else if(VX<0){
+            mover = mover.transformed(QTransform().scale(-1, 1));
+            mover=mover.copy(mCurrentFrame,32*2,32,32);
+
+        }
+        else if(VX>0){
+            mover=mover.copy(mCurrentFrame,32*2,32,32);
+        }
+        setPixmap(mover.scaled(30,30,Qt::KeepAspectRatio));
+        }
+        else{
+            if(att!=1){
+            mCurrentFrame += 22;
+                if (mCurrentFrame >= 286 ){
+
+                    mCurrentFrame = 0;}}
+            else{
+
+                mCurrentFrame += 43;
+                    if (mCurrentFrame >= 774 ){
+                        mCurrentFrame = 0;
+                        att=0;
+                    }
+            }
+
+            QPixmap mover(":/Images/Skeleton Walk.png");
+            QPixmap ataque(":/Images/Skeleton Attack.png");
+
+            mover=mover.copy(mCurrentFrame,0,22,33);
+
+            if(att==1){
+
+                ataque=ataque.copy(mCurrentFrame,0,43,37);
+                if(PX>jugadores.at(0)->getPX()){mover = mover.transformed(QTransform().scale(-1, 1));}
+
+            }
+            else if(VX<1 and VX>-1){
+
+
+                mover = mover.transformed(QTransform().scale(-1, 1));
+
+
+                mCurrentFrame=0;
+
+            }
+            else if(VX<0){
+                mover = mover.transformed(QTransform().scale(-1, 1));
+
+            }
+            if(att!=1){
+            setPixmap(mover.scaled(30,30,Qt::KeepAspectRatio));}
+            else{
+                setPixmap(ataque.scaled(33,40,Qt::KeepAspectRatio));
+            }
+
+}
+}
 

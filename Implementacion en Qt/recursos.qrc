@@ -11,5 +11,8 @@
         <file>Plataforma3.png</file>
         <file>BackGround.png</file>
         <file>ItemsAndWeapon.png</file>
+        <file>Skeleton Walk.png</file>
+        <file>Ghost.png</file>
+        <file>Skeleton Attack.png</file>
     </qresource>
 </RCC>
