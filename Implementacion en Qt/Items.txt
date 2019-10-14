@@ -1,6 +1,6 @@
 Ropa_vieja,0,2,0,0
 Escudo_Doran,15,4,0,0
-Botas_Doran,0,0,13,10
+Botas_Doran,0,0,5,10
 Pocion,5,0,0,12
 Gema_avivorada,10,5,0,30
 Casco,1,1,1,1

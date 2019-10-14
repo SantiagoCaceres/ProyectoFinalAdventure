@@ -3,12 +3,13 @@
 
 
 
-Enemigo::Enemigo(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_):Personaje (posX_,posY_, velX_, velY_, masa_, radio_, K_, e_)
+Enemigo::Enemigo(double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_):Personaje (posX_,posY_, velX_, velY_, masa_, radio_, K_, e_)
 {
 QTimer *a=new QTimer;
 QTimer *b=new QTimer;
 QPixmap Pixmap(":/Images/Skeleton Walk.png");
 Pixmap=Pixmap.copy(0,0,22,33);
+setPos(posX_,posY_);
 setPixmap( Pixmap.scaled(QSize(30, 30),Qt::KeepAspectRatio));
 QObject::connect(a,SIGNAL(timeout()),this,SLOT(actualizar()));
 a->start(10);

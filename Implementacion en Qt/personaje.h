@@ -76,7 +76,7 @@ public:
     QGraphicsRectItem *getVIDA() const;
 
     void setSaltos(int value);
-    void Asender();
+    void Ascender();
 
     void setAccesorio(item *value);
 
@@ -85,6 +85,14 @@ public:
     int getAttack() const;
 
     void setAttack(int value);
+
+    void setPX(double value);
+
+    void setPY(double value);
+
+    int getPuntaje() const;
+
+    void setPuntaje(int value);
 
 protected:
     QGraphicsRectItem *VIDA=new QGraphicsRectItem(PX+30,PY-R*6,vida*10,2);
@@ -95,9 +103,10 @@ protected:
     int mCurrentFrame=0;
     QString name="Principal";
     QTimer *spriter=new QTimer;
-
+    int confirmacion=0;
     int direccion=15;
     int vida=100,experiencia=0,defensa=10,nivel=1,velocidad=5,puntos=0,saltos=0;
+    int puntaje=0;
     double PX;//posicion en x
         double PY;//posicion en y
         double mass;//masa del cuerpo

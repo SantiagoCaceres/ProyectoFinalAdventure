@@ -15,4 +15,10 @@
         <file>Ghost.png</file>
         <file>Skeleton Attack.png</file>
     </qresource>
+    <qresource prefix="/Base">
+        <file>Users.txt</file>
+        <file>Armas.txt</file>
+        <file>Items.txt</file>
+        <file>Niveles.txt</file>
+    </qresource>
 </RCC>
