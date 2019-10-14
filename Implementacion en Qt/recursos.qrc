@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>bullet.png</file>
+        <file>bad.png</file>
+        <file>new.png</file>
+        <file>hero.png</file>
+        <file>Espada.png</file>
+        <file>Plataforma.png</file>
+        <file>Plataforma2.png</file>
+        <file>Elevator.png</file>
+        <file>Plataforma3.png</file>
+        <file>BackGround.png</file>
+        <file>ItemsAndWeapon.png</file>
+        <file>Skeleton Walk.png</file>
+        <file>Ghost.png</file>
+        <file>Skeleton Attack.png</file>
+    </qresource>
+    <qresource prefix="/Base">
+        <file>Users.txt</file>
+        <file>Armas.txt</file>
+        <file>Items.txt</file>
+    </qresource>
+</RCC>

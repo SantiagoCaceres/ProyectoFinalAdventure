@@ -2,26 +2,28 @@
 #define PERSONAJE_H
 #include <conio.h>
 #include <stdio.h>
+#include "item.h"
 #include <windows.h>
 #include "Arma.h"
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <QObject>
-#include <QGraphicsEllipseItem>
+#include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QString>
+#include <QMovie>
 
 
 
 using namespace std;
 
-class Personaje:public QObject,public QGraphicsEllipseItem
+class Personaje:public QObject,public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
     void keyPressEvent(QKeyEvent * event);
-    Personaje(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_);
+    Personaje(double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_);
     ~Personaje(){
         delete(VIDA);
 
@@ -43,9 +45,11 @@ public:
     void setWeapon(arma *value);
     arma *getWeapon() const;
     void Damage();
-
+    void Drop();
     //Estadisticas
     void actualizarVIDA();
+
+    void Items_Actuales();
 
     void setVida(int value);
 
@@ -71,11 +75,28 @@ public:
 
     QGraphicsRectItem *getVIDA() const;
 
+    void setSaltos(int value);
+    void Ascender();
+
+    void setAccesorio(item *value);
+
+    item *getAccesorio() const;
+
+    int getAttack() const;
+
+    void setAttack(int value);
+
 protected:
-    QGraphicsRectItem *VIDA=new QGraphicsRectItem(PX,PY-R*6,vida*10,2);
+    QGraphicsRectItem *VIDA=new QGraphicsRectItem(PX+30,PY-R*6,vida*10,2);
     QList <Personaje *> jugadores;
-    arma *Weapon=new arma("Inicial",20,20,10);
+    int att=0;
+    item *Accesorio=new item("Ropa_vieja",0,2,0,0);
+    arma *Weapon=new arma("Espada_Oxidada",20,5,100);
+    int mCurrentFrame=0;
     QString name="Principal";
+    QTimer *spriter=new QTimer;
+
+    int direccion=15;
     int vida=100,experiencia=0,defensa=10,nivel=1,velocidad=5,puntos=0,saltos=0;
     double PX;//posicion en x
         double PY;//posicion en y
@@ -96,6 +117,7 @@ protected:
     //double gravedad;
 public slots:
     void actualizar();
+    void sprite();
 
 };
 

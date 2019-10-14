@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,19 +27,34 @@ CONFIG += c++11
 
 SOURCES += \
         arma.cpp \
+        ascensor.cpp \
+        cargar_partida.cpp \
         enemigo.cpp \
+        item.cpp \
+        login.cpp \
         main.cpp \
         mainwindow.cpp \
-        personaje.cpp
+        obstacule.cpp \
+        personaje.cpp \
+        registro.cpp
 
 HEADERS += \
         arma.h \
+        ascensor.h \
+        cargar_partida.h \
         enemigo.h \
+        item.h \
+        login.h \
         mainwindow.h \
-        personaje.h
+        obstacule.h \
+        personaje.h \
+        registro.h
 
 FORMS += \
-        mainwindow.ui
+        cargar_partida.ui \
+        login.ui \
+        mainwindow.ui \
+        registro.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -48,4 +64,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     Armas.txt \
     Items.txt \
+    Items.txt \
     juego.txt
+
+RESOURCES += \
+    recursos.qrc
