@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QLabel>
+#include <QDir>
 #include <QTextStream>
 Registro::Registro(QWidget *parent) :
     QDialog(parent),
@@ -22,7 +23,7 @@ void Registro::on_pushButton_clicked()
     QString pass=ui->lineEdit_2->text();
     QString pass_conf=ui->lineEdit_3->text();
     QFile Users;
-    Users.setFileName("C:/Users/Mateo/Desktop/login_simulation/Users.txt");
+    Users.setFileName("C:/Users/Mateo/Desktop/ProyectoFinalAdventure-Imagenes/Implementacion en Qt/Users.txt");
     Users.open(QIODevice::ReadOnly);
     int c=0;
     while (!Users.atEnd()) {
@@ -39,25 +40,36 @@ void Registro::on_pushButton_clicked()
     Users.close();
     if (c==0){
         if (pass==pass_conf and pass!=""){
-        Users.setFileName("C:/Users/Mateo/Desktop/login_simulation/Users.txt");
+        Users.setFileName("C:/Users/Mateo/Desktop/Implementacion en Qt/Users.txt");
         Users.open(QIODevice::Append);
             QTextStream stream(&Users);
             stream <<"User:"<<user;
             stream <<"|pass:"<<pass;
+            stream <<endl;
             ui->lineEdit->clear();
             ui->lineEdit_2->clear();
             ui->lineEdit_3->clear();
+            Users.close();
 
+
+             QString nombre;
+             nombre="/"+user+".txt";
+             QString directorio="C:/Users/Mateo/Desktop/Implementacion en Qt/Usuarios";
+            QFile archivo(directorio+nombre);
+            QString datosExtra = "Esta es la segunda lÃ­nea";
+                if(archivo.open(QIODevice::WriteOnly | QIODevice::Text)){
+                    QTextStream datosArchivo(&archivo);
+                }
+                archivo.close();
             close();
-       //QFile name (user);
 
         }
 
         else if(pass=="" or pass_conf =="") {
-            ui->label_5->setText("   Completa las Contraseñas");
+            ui->label_5->setText("   Completa las ContraseÃ±as");
         }
         else{
-            ui->label_5->setText("   Las contraseñas no coinciden");
+            ui->label_5->setText("   Las contraseÃ±as no coinciden");
         }
 
     }else{
@@ -68,6 +80,3 @@ void Registro::on_pushButton_clicked()
 
 
 }
-
-
-

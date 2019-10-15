@@ -15,7 +15,7 @@ class Enemigo:public Personaje
 {
     Q_OBJECT
 public:
-    Enemigo(int largo,int ancho,double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_);
+    Enemigo(double posX_, double posY_, double velX_, double velY_, double masa_, double radio_, double K_, double e_);
 public slots:
     void move();
     //void user_attack();

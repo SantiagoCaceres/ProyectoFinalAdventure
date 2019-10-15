@@ -82,7 +82,7 @@ void Personaje::actualizar()
         setPos(PX,PY);
         Weapon->setPos(PX+direccion,PY+2);Damage();
                 actualizarVIDA();
-                Asender();
+                Ascender();
 
 
 
@@ -97,23 +97,25 @@ void Personaje::Damage(){
      QList<QGraphicsItem *> colliding_items =collidingItems();
     if(name!="Principal"){
     for (int i = 0, n = colliding_items.size();i<n;i++) {
-        if(typeid(*(colliding_items[i])) == typeid(Personaje)){
+        if(typeid(*(colliding_items[i])) == typeid(Personaje) and this->isVisible()){
             if(att!=1)
             att=1;
             if(jugadores.at(0)->getAttack()==0){
             jugadores.at(0)->setVida(jugadores.at(0)->getVida()-(Weapon->getDano()/jugadores.at(0)->getDefensa()));
-            jugadores.at(0)->set_vel(VX*2,jugadores.at(0)->getVY(),jugadores.at(0)->getPX(),jugadores.at(0)->getPY());}
+            jugadores.at(0)->set_vel(VX*2,jugadores.at(0)->getVY(),jugadores.at(0)->getPX(),jugadores.at(0)->getPY());
+            }
             else{
                 vida=vida-0.02*jugadores.at(0)->getWeapon()->getDano();
-
-
-
                 if(vida<=0){
-                    delete this;
+                    jugadores.at(0)->setPuntaje(jugadores.at(0)->getPuntaje()+100);
+                    this->hide();
+                    this->getVIDA()->hide();
+                    Drop();
                 }
             }
 
-}}
+}
+    }
 
             if(jugadores.at(0)->getVida()<=0){
                 jugadores.at(0)->getVIDA()->hide();
@@ -125,24 +127,25 @@ void Personaje::Damage(){
 
     else{
 
-       if(this->collidesWithItem(a) and a->isVisible()){
+       if(this->collidesWithItem(a) and a->isVisible() and confirmacion==1){
 
+    qDebug()<<a->getNombre();
         setWeapon(a);
         QTimer *f=new QTimer;
         connect(f,SIGNAL(timeout()),a,SLOT(Delete()));
         f->setSingleShot(true);
-        f->start(500);
+        f->start(1000);
 
         Weapon->setPixmap(a->pixmap());
         direccion=15;
-
+        confirmacion=0;
 
 
 
         }
 
-       else if(this->collidesWithItem(i) and i->isVisible()){
-
+       else if(this->collidesWithItem(i) and i->isVisible() and confirmacion==1){
+            qDebug()<<i->getName();
            vida=vida+i->getVida();//Quitar accesorio antiguo Advertencia
            vida=vida-Accesorio->getVida();
            defensa=defensa+i->getDefensa();
@@ -156,7 +159,8 @@ void Personaje::Damage(){
            connect(f,SIGNAL(timeout()),i,SLOT(Delete()));
            f->setSingleShot(true);
            f->start(500);
-
+           confirmacion=0;
+           qDebug()<<vida,defensa,velocidad;
            }
     }
 }
@@ -171,14 +175,14 @@ void Personaje::Drop()
     int probuser=jugadores.at(0)->getWeapon()->getProbabilidad();
     if (probabilidad<=0){
         QFile armas;
-        armas.setFileName("C:/Users/santy/Desktop/Obstacule_Branch/ProyectoFinalAdventure/Implementacion en Qt/Armas.txt");
+        armas.setFileName(":/Base/Armas.txt");
         armas.open(QIODevice::ReadOnly | QIODevice::Text);
         QTextStream in(&armas);
 
         if(probabilidad3<=probuser){
-        int cont=0;
+        int cont=-1;
         int probabilidad2;
-        probabilidad2=rand()%(21);
+        probabilidad2=rand()%(16);
         while (!in.atEnd()) {
                QString line = in.readLine();
                cont++;
@@ -193,12 +197,14 @@ void Personaje::Drop()
                    a=new arma(nombre,dano,alcance,prob);
                    QPixmap PixmapArma(":/Images/ItemsAndWeapon.png");
                    PixmapArma=PixmapArma.copy(cont*48,150,50,50);
-                   a->setPixmap(PixmapArma.scaled(30,20,Qt::KeepAspectRatioByExpanding));
-
                    a->setPos(PX,PY);
-                   a->setPixmap( PixmapArma.scaled(QSize(30, 30)));
+                   a->setPixmap( PixmapArma.scaled(QSize(30, 30),Qt::KeepAspectRatio));
                    a->setPos(PX,PY);
                    scene()->addItem(a);
+                   QTimer *f=new QTimer;
+                   connect(f,SIGNAL(timeout()),a,SLOT(Delete()));
+                   f->setSingleShot(true);
+                   f->start(2500);
 
                    break;
                }
@@ -207,11 +213,11 @@ void Personaje::Drop()
     }
     else if (probabilidad==1){
         QFile accesorios;
-        accesorios.setFileName("C:/Users/santy/Desktop/Obstacule_Branch/ProyectoFinalAdventure/Implementacion en Qt/Items.txt");
+        accesorios.setFileName(":/Base/Items.txt");
         accesorios.open(QIODevice::ReadOnly | QIODevice::Text);
         QTextStream in(&accesorios);
         if(probabilidad3<=probuser){
-        int cont=0;
+        int cont=-1;
         int probabilidad2;
         srand(time(NULL));
         probabilidad2=rand()%(8);
@@ -237,11 +243,16 @@ void Personaje::Drop()
                    i->setPixmap(PixmapItem.scaled(30,30,Qt::KeepAspectRatioByExpanding));
                    i->setPos(PX,PY);
                    scene()->addItem(i);
+                   QTimer *f=new QTimer;
+                   connect(f,SIGNAL(timeout()),i,SLOT(Delete()));
+                   f->setSingleShot(true);
+                   f->start(2500);
 
                    break;
                }
            }}
     }
+
 }
 
 void Personaje::keyPressEvent(QKeyEvent *event){
@@ -279,6 +290,15 @@ void Personaje::keyPressEvent(QKeyEvent *event){
         connect(timer,SIGNAL(timeout()),Weapon,SLOT(Delete()));
         timer->setSingleShot(true);
         timer->start(500);
+    }
+    else if(event->key() == Qt::Key_E){
+        if(this->collidesWithItem(a) and a->isVisible() ){
+            confirmacion=1;
+        }
+        else if(this->collidesWithItem(i) and i->isVisible()){
+            confirmacion=1;
+        }
+
     }
 }
 
@@ -385,7 +405,7 @@ void Personaje::setSaltos(int value)
     saltos = value;
 }
 
-void Personaje::Asender(){
+void Personaje::Ascender(){
     if(this->isVisible()){
     QList<QGraphicsItem *> Ascensor_items =collidingItems();
     for (int i = 0, n = Ascensor_items.size();i<n;i++) {
@@ -448,10 +468,30 @@ void Personaje::setAttack(int value)
     att = value;
 }
 
-void Personaje::sprite(){
+void Personaje::setPX(double value)
+{
+    PX = value;
+}
 
-        if(name=="Principal"){
-            mCurrentFrame += 32;
+void Personaje::setPY(double value)
+{
+    PY = value;
+}
+
+int Personaje::getPuntaje() const
+{
+    return puntaje;
+}
+
+void Personaje::setPuntaje(int value)
+{
+    puntaje = value;
+}
+
+void Personaje::sprite(){
+    
+    if(name=="Principal"){
+        mCurrentFrame += 32;
                 if (mCurrentFrame >= 320 ){
                     if(att==1){
                         att=0;

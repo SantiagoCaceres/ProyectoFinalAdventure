@@ -5,11 +5,13 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT += core
+QT       += core
+QT       += core gui serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ProyetoGUI
+TARGET = Arduino_Qt
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -30,22 +32,31 @@ SOURCES += \
         ascensor.cpp \
         enemigo.cpp \
         item.cpp \
+        login.cpp \
         main.cpp \
         mainwindow.cpp \
+        menu.cpp \
         obstacule.cpp \
-        personaje.cpp
+        personaje.cpp \
+        registro.cpp
 
 HEADERS += \
         arma.h \
         ascensor.h \
         enemigo.h \
         item.h \
+        login.h \
         mainwindow.h \
+        menu.h \
         obstacule.h \
-        personaje.h
+        personaje.h \
+        registro.h
 
 FORMS += \
-        mainwindow.ui
+        login.ui \
+        mainwindow.ui \
+        menu.ui \
+        registro.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -56,6 +67,7 @@ DISTFILES += \
     Armas.txt \
     Items.txt \
     Items.txt \
+    Users.txt \
     juego.txt
 
 RESOURCES += \

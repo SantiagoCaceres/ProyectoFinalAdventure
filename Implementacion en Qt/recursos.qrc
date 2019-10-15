@@ -14,5 +14,13 @@
         <file>Skeleton Walk.png</file>
         <file>Ghost.png</file>
         <file>Skeleton Attack.png</file>
+        <file>opciones.png</file>
+        <file>salir.png</file>
+    </qresource>
+    <qresource prefix="/Base">
+        <file>Users.txt</file>
+        <file>Armas.txt</file>
+        <file>Items.txt</file>
+        <file>Niveles.txt</file>
     </qresource>
 </RCC>
